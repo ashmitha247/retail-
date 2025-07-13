@@ -23,40 +23,310 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Add error handling for deployment issues
-try:
-    # Check if running on Streamlit Cloud
-    import os
-    if os.environ.get('STREAMLIT_SHARING_MODE'):
-        st.cache_data.clear()
-except Exception:
-    pass  # Continue if cache clear fails
-
-# Enhanced CSS for professional, sleek design
+# Enhanced CSS for futuristic, sci-fi design
 st.markdown("""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap');
+    
     /* Global Styles */
     .main .block-container {
-        padding-top: 1rem;
+        padding-top: 0.5rem;
         padding-bottom: 2rem;
-        max-width: 1200px;
+        max-width: 1400px;
+        background: #0a0a0a;
     }
     
-    /* Header Styles */
-    .main-header {
-        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        padding: 2rem;
-        border-radius: 15px;
-        color: white;
+    /* Background and Theme */
+    .stApp {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0a 100%);
+        background-attachment: fixed;
+    }
+    
+    /* Animated Header */
+    .futuristic-header {
+        background: linear-gradient(45deg, #00d4ff, #0099cc, #0066ff, #3366ff);
+        background-size: 400% 400%;
+        animation: gradientShift 3s ease infinite;
+        padding: 2.5rem;
+        border-radius: 20px;
+        color: #ffffff;
         text-align: center;
         margin-bottom: 2rem;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 
+            0 0 40px rgba(0, 212, 255, 0.3),
+            inset 0 0 40px rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(0, 212, 255, 0.5);
+        position: relative;
+        overflow: hidden;
     }
     
-    .main-header h1 {
-        font-size: 2.5rem;
+    .futuristic-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+        animation: scan 2s linear infinite;
+    }
+    
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes scan {
+        0% { transform: translate(-100%, -100%) rotate(45deg); }
+        100% { transform: translate(100%, 100%) rotate(45deg); }
+    }
+    
+    .futuristic-header h1 {
+        font-family: 'Orbitron', monospace;
+        font-size: 3rem;
+        font-weight: 900;
+        margin: 0;
+        text-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+        letter-spacing: 3px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .futuristic-header .subtitle {
+        font-family: 'Space Mono', monospace;
+        font-size: 1.2rem;
+        margin-top: 0.5rem;
+        opacity: 0.9;
+        letter-spacing: 2px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Sidebar Styling */
+    .css-1d391kg {
+        background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+        border-right: 2px solid rgba(0, 212, 255, 0.3);
+    }
+    
+    /* Futuristic Cards */
+    .status-card {
+        background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(51, 102, 255, 0.1) 100%);
+        border: 2px solid rgba(0, 212, 255, 0.3);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            inset 0 0 20px rgba(0, 212, 255, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .status-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 
+            0 15px 50px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(0, 212, 255, 0.3);
+        border-color: rgba(0, 212, 255, 0.6);
+    }
+    
+    .status-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transition: left 0.5s;
+    }
+    
+    .status-card:hover::before {
+        left: 100%;
+    }
+    
+    /* Success Card */
+    .success-card {
+        background: linear-gradient(135deg, rgba(0, 255, 127, 0.1) 0%, rgba(0, 200, 100, 0.1) 100%);
+        border: 2px solid rgba(0, 255, 127, 0.4);
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            0 0 20px rgba(0, 255, 127, 0.2);
+    }
+    
+    .success-card:hover {
+        box-shadow: 
+            0 15px 50px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(0, 255, 127, 0.4);
+    }
+    
+    /* Error Card */
+    .error-card {
+        background: linear-gradient(135deg, rgba(255, 20, 147, 0.1) 0%, rgba(220, 20, 60, 0.1) 100%);
+        border: 2px solid rgba(255, 20, 147, 0.4);
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            0 0 20px rgba(255, 20, 147, 0.2);
+    }
+    
+    .error-card:hover {
+        box-shadow: 
+            0 15px 50px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(255, 20, 147, 0.4);
+    }
+    
+    /* Warning Card */
+    .warning-card {
+        background: linear-gradient(135deg, rgba(255, 165, 0, 0.1) 0%, rgba(255, 140, 0, 0.1) 100%);
+        border: 2px solid rgba(255, 165, 0, 0.4);
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            0 0 20px rgba(255, 165, 0, 0.2);
+    }
+    
+    .warning-card:hover {
+        box-shadow: 
+            0 15px 50px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(255, 165, 0, 0.4);
+    }
+    
+    /* Buttons */
+    .stButton > button {
+        background: linear-gradient(45deg, #00d4ff, #0099cc);
+        color: white;
+        border: 2px solid rgba(0, 212, 255, 0.5);
+        border-radius: 25px;
+        padding: 0.75rem 2rem;
+        font-family: 'Orbitron', monospace;
         font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+        border-color: rgba(0, 212, 255, 0.8);
+    }
+    
+    .stButton > button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .stButton > button:hover::before {
+        left: 100%;
+    }
+    
+    /* Text Styling */
+    .main h1, .main h2, .main h3 {
+        font-family: 'Orbitron', monospace;
+        color: #00d4ff;
+        text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    }
+    
+    .main p, .main div {
+        color: #e0e0e0;
+        font-family: 'Space Mono', monospace;
+    }
+    
+    /* File Upload Area */
+    .uploadedFile {
+        background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(51, 102, 255, 0.1) 100%);
+        border: 2px dashed rgba(0, 212, 255, 0.5);
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .uploadedFile:hover {
+        border-color: rgba(0, 212, 255, 0.8);
+        box-shadow: 0 0 25px rgba(0, 212, 255, 0.3);
+    }
+    
+    /* Progress Bar */
+    .stProgress > div > div > div {
+        background: linear-gradient(90deg, #00d4ff, #0099cc, #0066ff);
+        background-size: 200% 100%;
+        animation: progressFlow 2s linear infinite;
+    }
+    
+    @keyframes progressFlow {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+    
+    /* Metrics */
+    .metric-container {
+        background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(51, 102, 255, 0.05) 100%);
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .metric-container:hover {
+        border-color: rgba(0, 212, 255, 0.4);
+        box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+    }
+    
+    /* Sidebar */
+    .css-1lcbmhc .css-1outpf7 {
+        background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+        border-right: 2px solid rgba(0, 212, 255, 0.3);
+    }
+    
+    /* Hide Streamlit branding */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    .stDeployButton {display:none;}
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(45deg, #00d4ff, #0099cc);
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(45deg, #0099cc, #0066ff);
+    }
+    
+    /* Matrix effect for background */
+    .matrix-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0.05;
+    }
+</style>
+""", unsafe_allow_html=True)
         margin: 0;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
@@ -198,97 +468,134 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def main():
-    # Professional Header
+    # Futuristic Header with animations
     st.markdown("""
-    <div class="main-header">
-        <h1>🛡️ VendorLadon</h1>
-        <p>Enterprise EDI Validation Platform for Walmart India</p>
+    <div class="futuristic-header">
+        <h1>⚡ VENDORLADON ⚡</h1>
+        <div class="subtitle">QUANTUM EDI VALIDATION MATRIX</div>
+        <div class="subtitle">🌐 WALMART INDIA NEURAL NETWORK 🌐</div>
     </div>
+    """, unsafe_allow_html=True)
+
+    # Add matrix-style background effect
+    st.markdown("""
+    <div class="matrix-bg">
+        <canvas id="matrix-canvas"></canvas>
+    </div>
+    <script>
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+        const matrixArray = matrix.split("");
+        const fontSize = 10;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        
+        for(let x = 0; x < columns; x++) {
+            drops[x] = 1; 
+        }
+        
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00d4ff';
+            ctx.font = fontSize + 'px monospace';
+            
+            for(let i = 0; i < drops.length; i++) {
+                const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(draw, 35);
+    </script>
     """, unsafe_allow_html=True)
 
     # Sidebar configuration with enhanced styling
     with st.sidebar:
-        st.markdown("## ⚙️ Configuration Panel")
+        st.markdown("""
+        <div style="text-align: center; padding: 1rem; background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(51, 102, 255, 0.1)); border-radius: 10px; margin-bottom: 1rem;">
+            <h2 style="color: #00d4ff; font-family: 'Orbitron', monospace;">⚙️ NEURAL CONTROL PANEL</h2>
+        </div>
+        """, unsafe_allow_html=True)
         
-        st.markdown("### 🏢 Vendor Information")
+        st.markdown("### 🏢 VENDOR MATRIX")
         vendor_id = st.text_input(
-            "Vendor ID", 
+            "🆔 Quantum Vendor ID",  
+            value="WMTIN-REL100", 
             placeholder="e.g., WMTIN-REL100",
             help="Your unique Walmart vendor identifier"
         )
         shipment_id = st.text_input(
-            "Shipment ID", 
-            placeholder="e.g., SHP20241201",
-            help="Unique identifier for this shipment"
+            "🚀 Shipment Neural Code", 
+            value=f"SHP{datetime.now().strftime('%Y%m%d%H%M')}",
+            help="Unique identifier for this shipment transmission"
         )
         
-        st.markdown("### 🗺️ Geographic Configuration")
+        st.markdown("### 🌐 GEOGRAPHIC NEURAL NET")
         indian_states = {
             "Maharashtra": "27", "Gujarat": "24", "Karnataka": "29", "Tamil Nadu": "33",
             "Telangana": "36", "Andhra Pradesh": "37", "West Bengal": "19", "Uttar Pradesh": "09",
             "Rajasthan": "08", "Haryana": "06", "Delhi": "07", "Punjab": "03"
         }
         selected_state = st.selectbox(
-            "Indian State", 
+            "🗺️ Quantum State Matrix",  
             list(indian_states.keys()), 
             index=0,
             help="Select your state for GSTIN validation"
         )
         state_code = indian_states[selected_state]
         
-        st.markdown("### ✅ Validation Modules")
-        st.markdown("Configure which validations to execute:")
+        st.markdown("### ⚡ VALIDATION NEURAL CORES")
+        st.markdown("🧠 Configure quantum validation protocols:")
         
         col1, col2 = st.columns(2)
         with col1:
-            validate_edi = st.checkbox("📋 EDI Structure")
-            validate_gstin = st.checkbox("🏛️ GSTIN Format")
-            validate_products = st.checkbox("📦 Product Codes")
+            validate_edi = st.checkbox("🌐 EDI Neural Net", value=True)
+            validate_gstin = st.checkbox("🏛️ GSTIN Matrix", value=True)
+            validate_products = st.checkbox("📦 Product Quantum Core", value=True)
         with col2:
-            validate_timing = st.checkbox("⏰ ASN Timing")
-            validate_certificates = st.checkbox("🔐 AS2 Certificates")
+            validate_timing = st.checkbox("⏰ Temporal Sync Engine", value=True)
+            validate_certificates = st.checkbox("🔐 Crypto Shield Array", value=True)
         
-        # Configuration summary
+        # Configuration summary with futuristic styling
         st.markdown("---")
-        st.markdown("### 📊 Configuration Summary")
+        st.markdown("""
+        <div style="background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(51, 102, 255, 0.1)); 
+                    border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 10px; padding: 1rem; margin: 1rem 0;">
+            <h3 style="color: #00d4ff; font-family: 'Orbitron', monospace;">📊 SYSTEM STATUS</h3>
+        </div>
+        """, unsafe_allow_html=True)
         
-        # Check if configuration is complete
-        config_complete = bool(vendor_id and shipment_id)
-        active_validations = sum([validate_edi, validate_gstin, validate_products, validate_timing, validate_certificates])
-        
-        if config_complete and active_validations > 0:
-            st.success(f"""
-            **Vendor**: {vendor_id}  
-            **Shipment**: {shipment_id}  
-            **State**: {selected_state} ({state_code})  
-            **Active Validations**: {active_validations}/5
-            """)
-        else:
-            missing_items = []
-            if not vendor_id:
-                missing_items.append("Vendor ID")
-            if not shipment_id:
-                missing_items.append("Shipment ID")
-            if active_validations == 0:
-                missing_items.append("At least one validation")
-                
-            st.warning(f"""
-            **Configuration Incomplete**  
-            Please provide: {', '.join(missing_items)}
-            """)
+        active_cores = sum([validate_edi, validate_gstin, validate_products, validate_timing, validate_certificates])
+        st.markdown(f"""
+        🆔 **Neural ID**: `{vendor_id}`  
+        🌐 **Geo-Matrix**: `{selected_state} ({state_code})`  
+        ⚡ **Active Cores**: `{active_cores}/5 ONLINE`  
+        🔋 **System Status**: `{'🟢 OPTIMAL' if active_cores >= 3 else '🟡 MINIMAL'}`
+        """)
 
-    # Main content area with improved layout
+    # Main content area with futuristic layout
+    st.markdown("""
+    <div style="text-align: center; padding: 1rem; background: linear-gradient(45deg, rgba(0, 212, 255, 0.05), rgba(51, 102, 255, 0.05)); 
+                border-radius: 15px; margin: 2rem 0; border: 1px solid rgba(0, 212, 255, 0.2);">
+        <h2 style="color: #00d4ff; font-family: 'Orbitron', monospace;">🚀 QUANTUM FILE ANALYZER</h2>
+        <p style="color: #e0e0e0; font-family: 'Space Mono', monospace;">Upload your EDI transmission for neural validation</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
     col1, col2 = st.columns([3, 1])
     
     with col1:
         st.markdown("## 📁 File Processing Center")
-        
-        # Check if configuration is ready
-        config_ready = bool(vendor_id and shipment_id and sum([validate_edi, validate_gstin, validate_products, validate_timing, validate_certificates]) > 0)
-        
-        if not config_ready:
-            st.info("👈 Please complete the configuration in the sidebar before uploading files.")
-            return
         
         # Enhanced file upload section
         st.markdown("""
