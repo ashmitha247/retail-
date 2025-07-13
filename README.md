@@ -8,7 +8,7 @@
 
 ## 🎯 What is VendorLadon?
 
-**VendorLadon** is a powerful, web-based validation platform designed specifically for **Walmart India vendors** to ensure their **EDI (Electronic Data Interchange)** files meet all compliance requirements before submission. Think of it as your quality control checkpoint that catches errors before they reach Walmart's systems.
+**VendorLadon** is a web-based validation platform designed specifically for **Retail India vendors** to ensure their **EDI (Electronic Data Interchange)** files meet all compliance requirements before submission. Think of it as your quality control checkpoint that catches errors before they reach Retail's systems.
 
 ### 🚀 **One-Click Access**
 - **No Downloads**: Works directly in your web browser
@@ -37,10 +37,10 @@
 ## 📚 **Key Terms Explained**
 
 ### **EDI (Electronic Data Interchange)**
-Think of EDI as the "digital language" that businesses use to communicate. Instead of sending paper documents, companies exchange structured electronic files. For Walmart vendors, this means sending shipment notifications, invoices, and other business documents in a specific digital format.
+Think of EDI as the "digital language" that businesses use to communicate. Instead of sending paper documents, companies exchange structured electronic files. For Retail vendors, this means sending shipment notifications, invoices, and other business documents in a specific digital format.
 
 ### **ASN (Advance Shipment Notice)**
-An ASN is like a "heads up" message you send to Walmart saying: *"Hey, I'm sending you a shipment with these specific products, quantities, and delivery details."* It helps Walmart prepare to receive your goods.
+An ASN is like a "heads up" message you send to Retail saying: *"Hey, I'm sending you a shipment with these specific products, quantities, and delivery details."* It helps Retail prepare to receive your goods.
 
 ### **GSTIN (Goods and Services Tax Identification Number)**
 Your business tax ID in India. VendorLadon checks that it's in the correct format and valid for the state you're shipping from.
@@ -51,7 +51,7 @@ Think of these as different "quality checkers" that examine different aspects of
 - **📋 EDI Structure**: Checks if your file follows the correct digital format
 - **🏛️ GSTIN Format**: Verifies your tax ID is correctly formatted
 - **📦 Product Codes**: Ensures all product identifiers are valid
-- **⏰ ASN Timing**: Confirms shipment timing meets Walmart requirements
+- **⏰ ASN Timing**: Confirms shipment timing meets Retail requirements
 - **🔐 AS2 Certificates**: Validates security certificates for data transmission
 
 ---
@@ -59,7 +59,7 @@ Think of these as different "quality checkers" that examine different aspects of
 ## 🎯 **How VendorLadon Works**
 
 ### **Step 1: Configure Your Details**
-- Enter your **Vendor ID** (your unique Walmart identifier)
+- Enter your **Vendor ID** (your unique Retail identifier)
 - Add your **Shipment ID** (unique identifier for this delivery)
 - Select your **Indian State** (for tax validation)
 - Choose which **validations** to run
@@ -83,7 +83,7 @@ Think of these as different "quality checkers" that examine different aspects of
 [**🔗 Open VendorLadon**](https://ashmitha247-retail--app-zurwdh.streamlit.app)
 
 ### **2. Fill in Your Details**
-- **Vendor ID**: Your Walmart vendor identifier (e.g., WMTIN-REL100)
+- **Vendor ID**: Your Retail vendor identifier (e.g., WMTIN-REL100)
 - **Shipment ID**: Unique ID for this shipment (e.g., SHP20241201)
 - **State**: Select your Indian state for tax validation
 - **Validations**: Check the boxes for validations you want to run
@@ -120,12 +120,6 @@ Think of these as different "quality checkers" that examine different aspects of
 - `.x12` - ANSI X12 standard
 - `.csv` - Comma-separated values
 
-### **Browser Compatibility**
-- ✅ Chrome (recommended)
-- ✅ Firefox  
-- ✅ Safari
-- ✅ Edge
-
 ---
 
-*© 2024 VendorLadon - Streamlining EDI validation for Walmart India vendors*
+*© 2024 VendorLadon - Streamlining EDI validation for Retail India vendors*
