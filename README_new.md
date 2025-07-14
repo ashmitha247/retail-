@@ -1,142 +1,188 @@
-# 🛡️ VendorLadon - Enterprise EDI Validation Platform
+# ⚡ GlitchGuard - Intelligent Supply Chain Validation Platform
 
-**🚀 [Try VendorLadon Online - Click Here!](https://ashmitha247-retail--app-zurwdh.streamlit.app)**
+<div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 2rem; border-radius: 10px; color: #ffffff;">
 
-*No installation required! Just click the link above and start validating your EDI files instantly.*
+**🔗 [Access GlitchGuard Platform](https://ashmitha247-retail--app-zurwdh.streamlit.app)**
 
----
+*Enterprise-grade validation platform with intelligent detection and automated compliance*
 
-## 🎯 What is VendorLadon?
-
-**VendorLadon** is a powerful, web-based validation platform designed specifically for **Retail India vendors** to ensure their **EDI (Electronic Data Interchange)** files meet all compliance requirements before submission. Think of it as your quality control checkpoint that catches errors before they reach Retail's systems.
-
-### 🚀 **One-Click Access**
-- **No Downloads**: Works directly in your web browser
-- **No Installation**: Ready to use immediately  
-- **No Technical Setup**: Just click the link and start validating
-- **Mobile Friendly**: Works on desktop, tablet, and mobile devices
+</div>
 
 ---
 
-## 🏪 **What Problem Does VendorLadon Solve?**
+## 🎯 What is GlitchGuard?
 
-### **Before VendorLadon:**
-- ❌ **Manual Validation**: Time-consuming manual checks prone to human error
-- ❌ **Rejected Shipments**: Files get rejected due to format/compliance issues
-- ❌ **Lost Revenue**: Delays in shipment processing cost money
-- ❌ **Complex Requirements**: Hard to understand EDI compliance rules
+**GlitchGuard** is an intelligent supply chain validation platform that automatically detects and validates different types of shipments. The platform includes specialized modules that activate based on your shipment characteristics:
 
-### **With VendorLadon:**
-- ✅ **Instant Validation**: Upload your file and get results in seconds
-- ✅ **Zero Rejections**: Catch all issues before submission
-- ✅ **Faster Processing**: Get your shipments processed without delays
-- ✅ **Clear Guidance**: Easy-to-understand error messages and fixes
+### 📋 **VendorLadon Module**
+- **Purpose**: EDI document validation for Retail India vendors
+- **Activation**: Automatically runs for all EDI file uploads
+- **Capabilities**: Format validation, GSTIN checking, product codes, timing, certificates
 
----
-
-## 📚 **Key Terms Explained**
-
-### **EDI (Electronic Data Interchange)**
-Think of EDI as the "digital language" that businesses use to communicate. Instead of sending paper documents, companies exchange structured electronic files. For Retail vendors, this means sending shipment notifications, invoices, and other business documents in a specific digital format.
-
-### **ASN (Advance Shipment Notice)**
-An ASN is like a "heads up" message you send to Retail saying: *"Hey, I'm sending you a shipment with these specific products, quantities, and delivery details."* It helps Retail prepare to receive your goods.
-
-### **GSTIN (Goods and Services Tax Identification Number)**
-Your business tax ID in India. VendorLadon checks that it's in the correct format and valid for the state you're shipping from.
-
-### **Cold Chain Compliance**
-For temperature-sensitive products (like fresh food, medicines), maintaining proper temperature during transport is critical. Our advanced system validates:
-- **🌡️ Temperature Monitoring**: Real-time temperature data analysis from IoT sensors
-- **📡 IoT Sensor Health**: Checks if temperature sensors are calibrated and working properly
-- **🤖 AI Risk Prediction**: Machine learning models predict spoilage risk based on transport conditions
-- **📋 Legal Documents**: Validates FSSAI licenses and sanitation certificates
-- **🔍 Compliance Checking**: Ensures adherence to food safety regulations
-- **📊 Real-time Analytics**: Live temperature stability monitoring and alerting
-
-### **Validation Modules**
-Think of these as different "quality checkers" that examine different aspects of your EDI file:
-
-- **📋 EDI Structure**: Checks if your file follows the correct digital format
-- **🏛️ GSTIN Format**: Verifies your tax ID is correctly formatted
-- **📦 Product Codes**: Ensures all product identifiers are valid
-- **⏰ ASN Timing**: Confirms shipment timing meets Retail requirements
-- **🔐 AS2 Certificates**: Validates security certificates for data transmission
-- **🧊 Cold Chain Compliance**: Advanced IoT sensor monitoring, AI-powered spoilage risk prediction, and comprehensive compliance checking for temperature-sensitive shipments
+### 🧊 **ColdChain Compliance Module** 
+- **Purpose**: Temperature-sensitive shipment validation
+- **Activation**: Automatically detects cold chain products and engages advanced monitoring
+- **Capabilities**: IoT sensor monitoring, AI spoilage prediction, compliance documentation
 
 ---
 
-## 🎯 **How VendorLadon Works**
+## 🔧 How GlitchGuard Works
 
-### **Step 1: Configure Your Details**
-- Enter your **Vendor ID** (your unique Retail identifier)
-- Add your **Shipment ID** (unique identifier for this delivery)
-- Select your **Indian State** (for tax validation)
-- Choose which **validations** to run
+### **Intelligent Detection**
+- Upload your EDI file to the platform
+- GlitchGuard **automatically analyzes** product types and shipment requirements
+- **VendorLadon module** validates standard EDI compliance for all files
+- **ColdChain module** activates when temperature-sensitive products are detected
 
-### **Step 2: Upload Your EDI File**
-- Drag and drop or browse for your file
-- Supports `.txt`, `.edi`, `.x12`, and `.csv` formats
-- Preview your file contents before validation
-
-### **Step 3: Get Instant Results**
-- **Real-time Analysis**: See progress as validations run
-- **Clear Results**: Understand exactly what needs fixing
-- **Actionable Advice**: Get specific steps to resolve issues
-- **Export Reports**: Download detailed reports for your records
+### **Automated Processing**
+- No manual configuration required for basic operations
+- Platform intelligently routes shipments to appropriate validation modules
+- Real-time processing with live status updates
+- Comprehensive reporting across all active modules
 
 ---
 
-## 🚀 **Getting Started (3 Simple Steps)**
+## ⚡ **Platform Advantages**
 
-### **1. Click the Link**
-[**🔗 Open VendorLadon**](https://ashmitha247-retail--app-zurwdh.streamlit.app)
+<div style="background: #2d3748; padding: 1.5rem; border-left: 4px solid #4299e1; margin: 1rem 0;">
 
-### **2. Fill in Your Details**
+### **Before GlitchGuard:**
+- ❌ **Manual Product Classification**: Users had to identify shipment types themselves
+- ❌ **Separate Tool Management**: Different validation tools for different shipment types  
+- ❌ **Configuration Complexity**: Manual setup for compliance requirements
+- ❌ **Missing Validations**: Easy to forget critical checks for specific product types
+
+</div>
+
+<div style="background: #1a202c; padding: 1.5rem; border-left: 4px solid #38b2ac; margin: 1rem 0;">
+
+### **With GlitchGuard:**
+- ✅ **Intelligent Classification**: Platform automatically identifies shipment types
+- ✅ **Unified Interface**: Single platform handles all validation modules
+- ✅ **Zero Configuration**: Automatic activation of required compliance modules
+- ✅ **Complete Coverage**: Ensures all necessary validations run automatically
+
+</div>
+
+---
+
+## 🧠 **Technology Stack**
+
+<div style="background: linear-gradient(135deg, #2d3748, #1a202c); padding: 2rem; border-radius: 8px; margin: 1rem 0;">
+
+### **🔤 EDI Processing (VendorLadon Module)**
+- **Format Detection**: Automatic recognition of EDI file types and structures
+- **Syntax Validation**: Deep parsing of EDI segments and elements
+- **Business Rules**: Retail India specific compliance checking
+- **Error Resolution**: Detailed guidance for fixing detected issues
+
+### **🌡️ ColdChain Intelligence (ColdChain Module)**
+- **Product Recognition**: Automatic detection of temperature-sensitive items
+- **IoT Integration**: Real-time sensor data processing and validation
+- **ML Risk Assessment**: Machine learning models predict spoilage probability
+- **Compliance Automation**: Automatic verification of FSSAI licenses and certificates
+
+### **� Unified Analytics**
+- **Cross-Module Reporting**: Comprehensive validation results across all modules
+- **Risk Aggregation**: Combined risk scoring from multiple validation types
+- **Audit Trails**: Complete documentation for regulatory compliance
+- **Performance Metrics**: Shipment success rates and optimization insights
+
+</div>
+
+### **📋 Module Activation Logic**
+
+| Product Type | VendorLadon Module | ColdChain Module | Automatic Triggers |
+|-------------|-------------------|------------------|-------------------|
+| **Standard Products** | ✅ Always Active | ❌ Inactive | EDI format validation |
+| **Fresh Food** | ✅ Always Active | ✅ Auto-Activated | Temperature keywords detected |
+| **Pharmaceuticals** | ✅ Always Active | ✅ Auto-Activated | Medical product codes found |
+| **Frozen Goods** | ✅ Always Active | ✅ Auto-Activated | Cold storage indicators present |
+
+---
+
+## 🚀 **Getting Started**
+
+<div style="background: #2d3748; padding: 2rem; border-radius: 8px; margin: 1rem 0;">
+
+### **Step 1: Access Platform**
+[**🔗 Open GlitchGuard**](https://ashmitha247-retail--app-zurwdh.streamlit.app)
+
+### **Step 2: Basic Configuration**
 - **Vendor ID**: Your Retail vendor identifier (e.g., RETAIL-REL100)
-- **Shipment ID**: Unique ID for this shipment (e.g., SHP20241201)
+- **Shipment ID**: Unique ID for this shipment (e.g., SHP20241201)  
 - **State**: Select your Indian state for tax validation
-- **Validations**: Check the boxes for validations you want to run
 
-### **3. Upload and Validate**
-- Upload your EDI file (any supported format)
-- Click "Execute Validation Analysis"
-- Get instant results with detailed feedback
+### **Step 3: Upload & Auto-Process**
+- Upload your EDI file (supports `.txt`, `.edi`, `.x12`, `.csv`)
+- GlitchGuard automatically:
+  - Analyzes product types in your shipment
+  - Activates VendorLadon module for EDI validation
+  - Engages ColdChain module if temperature-sensitive products detected
+  - Processes IoT sensor data if available
+  - Generates comprehensive validation results
 
----
-
-## 📊 **Validation Capabilities**
-
-| Validation Type | What It Checks | Why It Matters |
-|----------------|----------------|----------------|
-| **📋 EDI Structure** | File format and syntax | Prevents technical rejections |
-| **🏛️ GSTIN Format** | Tax ID validity | Ensures legal compliance |
-| **📦 Product Codes** | Item identifiers | Prevents inventory mismatches |
-| **⏰ ASN Timing** | Shipment schedules | Avoids delivery delays |
-| **🔐 AS2 Certificates** | Security protocols | Maintains data security |
-| **🧊 Cold Chain Compliance** | Temperature monitoring, IoT sensors, AI risk prediction | Ensures product quality and safety |
+</div>
 
 ---
 
-## 🆘 **Need Help?**
+## 📊 **Validation Coverage**
 
-### **Common Questions**
-- **File not uploading?** Check that it's under 10MB and in a supported format
-- **Validation errors?** Read the detailed suggestions provided for each error
-- **Configuration issues?** Ensure all required fields are filled in
+<div style="background: #1a202c; padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
 
-### **Supported File Formats**
-- `.txt` - Plain text EDI files
-- `.edi` - Standard EDI format
-- `.x12` - ANSI X12 standard
-- `.csv` - Comma-separated values
+| Validation Area | Technology | Scope | Business Impact |
+|----------------|------------|-------|-----------------|
+| **📋 EDI Structure** | Format parsing | All shipments | Prevents technical rejections |
+| **🏛️ GSTIN Compliance** | Tax validation | All vendors | Ensures legal compliance |
+| **📦 Product Validation** | Database matching | All items | Prevents inventory issues |
+| **⏰ Timing Compliance** | Schedule analysis | All shipments | Avoids delivery delays |
+| **🔐 Security Certificates** | Cryptographic check | All transmissions | Maintains data security |
+| **🌡️ Temperature Control** | IoT + AI analysis | Cold chain products | Prevents spoilage losses |
+| **📋 Food Safety Docs** | Compliance verification | Food products | Meets regulatory requirements |
 
-### **Browser Compatibility**
-- ✅ Chrome (recommended)
-- ✅ Firefox  
-- ✅ Safari
-- ✅ Edge
+</div>
 
 ---
 
-*© 2025 VendorLadon - Streamlining EDI validation for Retail India vendors*
+## 🛠️ **Troubleshooting**
+
+<div style="background: #2d3748; padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+
+### **Platform Issues**
+- **File upload failing?** Check file size (under 10MB) and format (.txt, .edi, .x12, .csv)
+- **No validation results?** Ensure all required fields (Vendor ID, Shipment ID, State) are filled
+- **Slow processing?** Large files may take longer; check network connection
+
+### **VendorLadon Module Issues**
+- **EDI format errors?** Check file structure matches standard EDI syntax
+- **GSTIN validation failing?** Verify tax ID format matches your selected state
+- **Product code issues?** Ensure product identifiers match Retail's database
+
+### **ColdChain Module Issues**
+- **Module not activating?** Platform didn't detect temperature-sensitive products in your shipment
+- **IoT sensor errors?** Check sensor connectivity and calibration dates
+- **High spoilage risk?** Review temperature data and route planning
+
+</div>
+
+### **File Format Support**
+- **`.txt`** - Plain text EDI files
+- **`.edi`** - Standard EDI format  
+- **`.x12`** - ANSI X12 standard
+- **`.csv`** - Comma-separated values
+
+### **System Requirements**
+- **Internet connection** for real-time validation
+- **Modern web browser** (Chrome, Firefox, Safari, Edge)
+- **JavaScript enabled** for interactive features
+
+---
+
+<div style="background: linear-gradient(135deg, #1a202c, #2d3748); padding: 2rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+
+**GlitchGuard Platform** - Intelligent supply chain validation  
+*Powered by automated detection, IoT sensors, and machine learning*
+
+**© 2025 GlitchGuard** | VendorLadon Module | ColdChain Compliance Module
+
+</div>
