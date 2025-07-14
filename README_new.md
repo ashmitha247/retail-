@@ -8,7 +8,7 @@
 
 ## 🎯 What is VendorLadon?
 
-**VendorLadon** is a web-based validation platform designed specifically for **Retail India vendors** to ensure their **EDI (Electronic Data Interchange)** files meet all compliance requirements before submission. Think of it as your quality control checkpoint that catches errors before they reach Retail's systems.
+**VendorLadon** is a powerful, web-based validation platform designed specifically for **Retail India vendors** to ensure their **EDI (Electronic Data Interchange)** files meet all compliance requirements before submission. Think of it as your quality control checkpoint that catches errors before they reach Retail's systems.
 
 ### 🚀 **One-Click Access**
 - **No Downloads**: Works directly in your web browser
@@ -93,7 +93,7 @@ Think of these as different "quality checkers" that examine different aspects of
 [**🔗 Open VendorLadon**](https://ashmitha247-retail--app-zurwdh.streamlit.app)
 
 ### **2. Fill in Your Details**
-- **Vendor ID**: Your Retail vendor identifier (e.g., WMTIN-REL100)
+- **Vendor ID**: Your Retail vendor identifier (e.g., RETAIL-REL100)
 - **Shipment ID**: Unique ID for this shipment (e.g., SHP20241201)
 - **State**: Select your Indian state for tax validation
 - **Validations**: Check the boxes for validations you want to run
@@ -114,7 +114,7 @@ Think of these as different "quality checkers" that examine different aspects of
 | **📦 Product Codes** | Item identifiers | Prevents inventory mismatches |
 | **⏰ ASN Timing** | Shipment schedules | Avoids delivery delays |
 | **🔐 AS2 Certificates** | Security protocols | Maintains data security |
-| **🧊 Cold Chain Compliance** | Temperature monitoring & legal docs | Prevents spoiled goods & ensures food safety |
+| **🧊 Cold Chain Compliance** | Temperature monitoring, IoT sensors, AI risk prediction | Ensures product quality and safety |
 
 ---
 
@@ -131,6 +131,12 @@ Think of these as different "quality checkers" that examine different aspects of
 - `.x12` - ANSI X12 standard
 - `.csv` - Comma-separated values
 
+### **Browser Compatibility**
+- ✅ Chrome (recommended)
+- ✅ Firefox  
+- ✅ Safari
+- ✅ Edge
+
 ---
 
-*© 2024 VendorLadon - Streamlining EDI validation for Retail India vendors*
+*© 2025 VendorLadon - Streamlining EDI validation for Retail India vendors*

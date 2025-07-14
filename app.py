@@ -12,6 +12,7 @@ from validators.gstin_validator import GSTINValidator
 from validators.product_validator import ProductValidator
 from validators.timing_validator import TimingValidator
 from validators.certificate_validator import CertificateValidator
+from validators.coldchain_validator import ColdChainValidator
 from utils.file_handler import FileHandler
 from utils.report_generator import ReportGenerator
 
@@ -247,6 +248,7 @@ def main():
         with col2:
             validate_timing = st.checkbox("⏰ ASN Timing")
             validate_certificates = st.checkbox("🔐 AS2 Certificates")
+            validate_coldchain = st.checkbox("🧊 Cold Chain Compliance")
         
         # Configuration summary
         st.markdown("---")
@@ -254,14 +256,14 @@ def main():
         
         # Check if configuration is complete
         config_complete = bool(vendor_id and shipment_id)
-        active_validations = sum([validate_edi, validate_gstin, validate_products, validate_timing, validate_certificates])
+        active_validations = sum([validate_edi, validate_gstin, validate_products, validate_timing, validate_certificates, validate_coldchain])
         
         if config_complete and active_validations > 0:
             st.success(f"""
             **Vendor**: {vendor_id}  
             **Shipment**: {shipment_id}  
             **State**: {selected_state} ({state_code})  
-            **Active Validations**: {active_validations}/5
+            **Active Validations**: {active_validations}/6
             """)
         else:
             missing_items = []
@@ -284,7 +286,7 @@ def main():
         st.markdown("## 📁 File Processing Center")
         
         # Check if configuration is ready
-        config_ready = bool(vendor_id and shipment_id and sum([validate_edi, validate_gstin, validate_products, validate_timing, validate_certificates]) > 0)
+        config_ready = bool(vendor_id and shipment_id and sum([validate_edi, validate_gstin, validate_products, validate_timing, validate_certificates, validate_coldchain]) > 0)
         
         if not config_ready:
             st.info("👈 Please complete the configuration in the sidebar before uploading files.")
@@ -345,7 +347,8 @@ def main():
                     'validate_gstin': validate_gstin,
                     'validate_products': validate_products,
                     'validate_timing': validate_timing,
-                    'validate_certificates': validate_certificates
+                    'validate_certificates': validate_certificates,
+                    'validate_coldchain': validate_coldchain
                 })
         else:
             # Professional empty state
@@ -453,6 +456,7 @@ def validate_file(uploaded_file, config):
         if config['validate_products']: validation_pipeline.append(('products', 'Product Code Verification'))
         if config['validate_timing']: validation_pipeline.append(('timing', 'ASN Timing Analysis'))
         if config['validate_certificates']: validation_pipeline.append(('certificates', 'Certificate Security Check'))
+        if config['validate_coldchain']: validation_pipeline.append(('coldchain', 'Cold Chain Compliance Check'))
         
         total_steps = len(validation_pipeline)
         
@@ -473,6 +477,8 @@ def validate_file(uploaded_file, config):
                 validator = TimingValidator()
             elif validation_type == 'certificates':
                 validator = CertificateValidator()
+            elif validation_type == 'coldchain':
+                validator = ColdChainValidator()
             
             validation_result = validator.validate(parsed_data, config)
             results['validations'][validation_type] = validation_result
@@ -588,46 +594,12 @@ def display_validation_results(results):
     
     for i, (validation_type, validation_result) in enumerate(results['validations'].items()):
         with tabs[i]:
-            if validation_result.get('errors'):
-                st.markdown("#### 🚨 Critical Issues")
-                for j, error in enumerate(validation_result['errors'], 1):
-                    st.markdown(f"""
-                    <div class="error-card">
-                        <h5 style="margin-top: 0;">Error #{j}: {error.get('message', 'Unknown error')}</h5>
-                        <p><strong>Segment:</strong> {error.get('segment', 'N/A')}</p>
-                        <p><strong>Details:</strong> {error.get('details', 'No details')}</p>
-                        <p><strong>💡 Resolution:</strong> {error.get('suggestion', 'No suggestion')}</p>
-                    </div>
-                    """, unsafe_allow_html=True)
-            
-            if validation_result.get('warnings'):
-                st.markdown("#### ⚠️ Advisory Notices")
-                for j, warning in enumerate(validation_result['warnings'], 1):
-                    st.markdown(f"""
-                    <div class="warning-card">
-                        <h5 style="margin-top: 0;">Warning #{j}: {warning.get('message', 'Unknown warning')}</h5>
-                        <p><strong>Segment:</strong> {warning.get('segment', 'N/A')}</p>
-                        <p><strong>Details:</strong> {warning.get('details', 'No details')}</p>
-                        <p><strong>💡 Recommendation:</strong> {warning.get('suggestion', 'No suggestion')}</p>
-                    </div>
-                    """, unsafe_allow_html=True)
-            
-            if validation_result.get('success'):
-                st.markdown(f"""
-                <div class="success-card">
-                    <h5 style="margin-top: 0;">✅ Validation Successful</h5>
-                    <p>{validation_result.get('details', 'All checks passed successfully')}</p>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            if not validation_result.get('errors') and not validation_result.get('warnings') and not validation_result.get('success'):
-                st.markdown("""
-                <div class="info-card">
-                    <h5 style="margin-top: 0;">ℹ️ No Issues Found</h5>
-                    <p>This validation completed without any issues to report.</p>
-                </div>
-                """, unsafe_allow_html=True)
-    
+            # Special handling for cold chain validation
+            if validation_type == 'coldchain':
+                display_coldchain_results(validation_result)
+            else:
+                display_standard_validation_results(validation_result)
+
     # Enhanced Report Download Section
     st.markdown("---")
     st.markdown("### 📋 Export & Reporting")
@@ -683,6 +655,201 @@ def display_validation_results(results):
         if st.button("👁️ View Raw Data", use_container_width=True):
             with st.expander("📊 Raw Validation Data", expanded=True):
                 st.json(results)
+
+def display_coldchain_results(validation_result):
+    """Display enhanced cold chain validation results"""
+    if validation_result.get('overall_status') == 'APPROVED':
+        st.markdown("""
+        <div class="success-card">
+            <h5 style="margin-top: 0;">🧊✅ Cold Chain Compliance Approved</h5>
+            <p>All temperature monitoring and compliance checks passed successfully.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Show detailed metrics
+        col1, col2, col3 = st.columns(3)
+        
+        if 'sensor_health' in validation_result:
+            sensor_health = validation_result['sensor_health']
+            with col1:
+                st.metric("Sensor Health", sensor_health.get('data_quality', 'N/A'))
+                
+        if 'spoilage_risk' in validation_result:
+            spoilage_risk = validation_result['spoilage_risk']
+            with col2:
+                risk_level = spoilage_risk.get('risk_level', 'UNKNOWN')
+                risk_score = spoilage_risk.get('risk_score', 0)
+                st.metric("Spoilage Risk", f"{risk_level} ({risk_score:.1%})")
+                
+        if 'document_compliance' in validation_result:
+            docs = validation_result['document_compliance']
+            compliance_count = sum([docs.get('fssai_valid', False), 
+                                  docs.get('sanitation_valid', False), 
+                                  docs.get('calibration_valid', False)])
+            with col3:
+                st.metric("Document Compliance", f"{compliance_count}/3")
+                
+    elif validation_result.get('overall_status') == 'BLOCKED':
+        st.markdown("""
+        <div class="error-card">
+            <h5 style="margin-top: 0;">🧊❌ Cold Chain Compliance Failed</h5>
+            <p>Critical issues detected that prevent shipment approval.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        if validation_result.get('blocking_issues'):
+            st.markdown("#### 🚨 Blocking Issues")
+            for issue in validation_result['blocking_issues']:
+                st.markdown(f"""
+                <div class="error-card">
+                    <p><strong>Critical:</strong> {issue}</p>
+                </div>
+                """, unsafe_allow_html=True)
+    
+    # Show warnings if any
+    if validation_result.get('warnings'):
+        st.markdown("#### ⚠️ Advisory Notices")
+        for warning in validation_result['warnings']:
+            st.markdown(f"""
+            <div class="warning-card">
+                <p><strong>Warning:</strong> {warning}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+def display_standard_validation_results(validation_result):
+    """Display standard validation results (existing logic)"""
+    if validation_result.get('errors'):
+        st.markdown("#### 🚨 Critical Issues")
+        for j, error in enumerate(validation_result['errors'], 1):
+            st.markdown(f"""
+            <div class="error-card">
+                <h5 style="margin-top: 0;">Error #{j}: {error.get('message', 'Unknown error')}</h5>
+                <p><strong>Segment:</strong> {error.get('segment', 'N/A')}</p>
+                <p><strong>Details:</strong> {error.get('details', 'No details')}</p>
+                <p><strong>💡 Resolution:</strong> {error.get('suggestion', 'No suggestion')}</p>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    if validation_result.get('warnings'):
+        st.markdown("#### ⚠️ Advisory Notices")
+        for j, warning in enumerate(validation_result['warnings'], 1):
+            st.markdown(f"""
+            <div class="warning-card">
+                <h5 style="margin-top: 0;">Warning #{j}: {warning.get('message', 'Unknown warning')}</h5>
+                <p><strong>Segment:</strong> {warning.get('segment', 'N/A')}</p>
+                <p><strong>Details:</strong> {warning.get('details', 'No details')}</p>
+                <p><strong>💡 Recommendation:</strong> {warning.get('suggestion', 'No suggestion')}</p>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    if validation_result.get('success'):
+        st.markdown(f"""
+        <div class="success-card">
+            <h5 style="margin-top: 0;">✅ Validation Successful</h5>
+            <p>{validation_result.get('details', 'All checks passed successfully')}</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    if not validation_result.get('errors') and not validation_result.get('warnings') and not validation_result.get('success'):
+        st.markdown("""
+        <div class="info-card">
+            <h5 style="margin-top: 0;">ℹ️ No Issues Found</h5>
+            <p>This validation completed without any issues to report.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+def display_coldchain_validation_results(validation_result):
+    """Display ColdChain validation results with enhanced IoT and ML displays"""
+    
+    # Temperature Monitoring Section
+    if 'temperature_data' in validation_result:
+        temp_data = validation_result['temperature_data']
+        st.markdown("#### 🌡️ Temperature Monitoring")
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            avg_temp = temp_data.get('average_temp', 0)
+            st.metric("Average Temperature", f"{avg_temp}°C", 
+                     delta=f"{avg_temp - temp_data.get('target_temp', 4):.1f}°C from target")
+        
+        with col2:
+            min_temp = temp_data.get('min_temp', 0)
+            max_temp = temp_data.get('max_temp', 0)
+            st.metric("Temperature Range", f"{min_temp}°C - {max_temp}°C")
+        
+        with col3:
+            stability = temp_data.get('stability_score', 0)
+            st.metric("Stability Score", f"{stability}%", 
+                     delta="Good" if stability > 85 else "Poor")
+    
+    # ML Risk Prediction
+    if 'spoilage_risk' in validation_result:
+        risk_data = validation_result['spoilage_risk']
+        st.markdown("#### 🤖 AI Risk Analysis")
+        
+        risk_level = risk_data.get('risk_level', 'Unknown')
+        confidence = risk_data.get('confidence', 0)
+        
+        if risk_level == 'LOW':
+            risk_color = "#28a745"
+            risk_icon = "✅"
+        elif risk_level == 'MEDIUM':
+            risk_color = "#ffc107"
+            risk_icon = "⚠️"
+        else:
+            risk_color = "#dc3545"
+            risk_icon = "🚨"
+        
+        st.markdown(f"""
+        <div style="background: linear-gradient(135deg, {risk_color}20, {risk_color}10); 
+                    border-left: 4px solid {risk_color}; padding: 15px; border-radius: 8px;">
+            <h5 style="color: {risk_color}; margin-top: 0;">{risk_icon} Spoilage Risk: {risk_level}</h5>
+            <p><strong>Confidence:</strong> {confidence:.1%}</p>
+            <p><strong>Prediction:</strong> {risk_data.get('prediction_details', 'No details available')}</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # IoT Sensor Status
+    if 'iot_status' in validation_result:
+        iot_data = validation_result['iot_status']
+        st.markdown("#### 📡 IoT Sensor Network")
+        
+        for sensor_id, sensor_data in iot_data.items():
+            status = sensor_data.get('status', 'Unknown')
+            battery = sensor_data.get('battery_level', 0)
+            
+            status_color = "#28a745" if status == "ACTIVE" else "#dc3545"
+            status_icon = "🟢" if status == "ACTIVE" else "🔴"
+            
+            st.markdown(f"""
+            <div style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px; 
+                        border-radius: 8px; margin-bottom: 10px;">
+                <h6 style="margin-top: 0;">{status_icon} Sensor {sensor_id}</h6>
+                <p><strong>Status:</strong> <span style="color: {status_color};">{status}</span></p>
+                <p><strong>Battery:</strong> {battery}% | <strong>Last Reading:</strong> {sensor_data.get('last_reading', 'N/A')}</p>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    # Compliance Check Results
+    if 'compliance' in validation_result:
+        compliance_data = validation_result['compliance']
+        st.markdown("#### 📋 Compliance Status")
+        
+        for check_type, result in compliance_data.items():
+            check_status = result.get('status', 'UNKNOWN')
+            check_icon = "✅" if check_status == "COMPLIANT" else "❌"
+            check_color = "#28a745" if check_status == "COMPLIANT" else "#dc3545"
+            
+            st.markdown(f"""
+            <div style="border-left: 4px solid {check_color}; padding: 10px; margin-bottom: 10px; 
+                        background: {check_color}10;">
+                <h6 style="margin-top: 0; color: {check_color};">{check_icon} {check_type.replace('_', ' ').title()}</h6>
+                <p><strong>Status:</strong> {check_status}</p>
+                <p><strong>Details:</strong> {result.get('details', 'No details available')}</p>
+            </div>
+            """, unsafe_allow_html=True)
+     # Display any standard errors/warnings
+    display_standard_validation_results(validation_result)
 
 if __name__ == "__main__":
     main()
