@@ -156,20 +156,21 @@ st.markdown("""
     
     /* Header Styles */
     .main-header {
-        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        background: linear-gradient(135deg, #007BFF 0%, #0056B3 100%);
         padding: 2rem;
         border-radius: 15px;
         color: white;
         text-align: center;
         margin-bottom: 2rem;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 123, 255, 0.2);
+        border: 1px solid rgba(0, 123, 255, 0.2);
     }
     
     .main-header h1 {
         font-size: 2.5rem;
         font-weight: 700;
         margin: 0;
+        color: white !important;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
     
@@ -177,6 +178,7 @@ st.markdown("""
         font-size: 1.1rem;
         margin: 0.5rem 0 0 0;
         opacity: 0.9;
+        color: white !important;
     }
     
     /* Card Styles */
@@ -311,11 +313,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def main():
-    # Professional Header
+    # Professional Header - Enhanced Visibility
     st.markdown("""
-    <div class="main-header">
-        <h1>⚡ GlitchGuard</h1>
-        <p>Intelligent Supply Chain Validation Platform</p>
+    <div style="background: #007BFF; padding: 2rem; border-radius: 15px; text-align: center; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);">
+        <h1 style="color: white; font-size: 3rem; margin: 0; font-weight: bold;">⚡ GlitchGuard</h1>
+        <p style="color: white; font-size: 1.2rem; margin: 0.5rem 0 0 0;">Intelligent Supply Chain Validation Platform</p>
     </div>
     """, unsafe_allow_html=True)
 
