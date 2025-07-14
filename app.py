@@ -14,7 +14,6 @@ from validators.timing_validator_simple import TimingValidator
 from validators.certificate_validator_simple import CertificateValidator
 from validators.coldchain_validator_simple import ColdChainValidator
 from utils.file_handler import FileHandler
-from utils.report_generator import ReportGenerator
 
 # Configure page
 st.set_page_config(
@@ -718,88 +717,32 @@ def display_validation_results(results):
             else:
                 display_standard_validation_results(validation_result)
 
-    # Enhanced Report Download Section
+    # Simple Validation Complete Message
     st.markdown("---")
-    st.markdown("### 📋 Export & Reporting")
+    st.markdown("### ✅ Validation Complete")
     
-    col1, col2, col3 = st.columns(3)
+    # Summary message
+    if results['summary']['is_ready']:
+        st.success(f"""
+        🎯 **Validation Successful!** 
+        - ✅ All {results['summary']['total_validations']} validation modules passed
+        - 📊 {results['summary']['total_warnings']} warnings to review
+        - ⚡ Processing completed in {results['summary']['processing_time']}
+        - � Shipment is ready for submission to Walmart
+        """)
+    else:
+        st.error(f"""
+        ⚠️ **Validation Issues Found** 
+        - ❌ {results['summary']['total_errors']} critical errors must be fixed
+        - ⚠️ {results['summary']['total_warnings']} warnings to review  
+        - 📋 {results['summary']['total_validations']} validations completed
+        - 🔧 Please address issues before submission
+        """)
     
-    with col1:
-        st.markdown("""
-        <div class="metric-card" style="text-align: center;">
-            <h4>📄 Technical Report</h4>
-            <p>JSON format for system integration</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        if st.button("📄 Generate JSON Report", use_container_width=True):
-            try:
-                report_generator = ReportGenerator()
-                json_report = report_generator.generate_json_report(results)
-                
-                if json_report and len(json_report) > 0:
-                    st.download_button(
-                        label="⬇️ Download JSON",
-                        data=json_report,
-                        file_name=f"vendorladon_validation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
-                        mime="application/json",
-                        use_container_width=True
-                    )
-                    st.success("✅ JSON report generated successfully!")
-                else:
-                    st.error("❌ Failed to generate JSON report - no data")
-                    
-            except Exception as e:
-                st.error(f"❌ Error generating JSON report: {str(e)}")
-                st.write("Debug info:", str(e))
-    
-    with col2:
-        st.markdown("""
-        <div class="metric-card" style="text-align: center;">
-            <h4>📊 Business Report</h4>
-            <p>CSV format for analysis</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        if st.button("📊 Generate CSV Report", use_container_width=True):
-            try:
-                report_generator = ReportGenerator()
-                csv_report = report_generator.generate_csv_report(results)
-                
-                if csv_report and len(csv_report) > 0:
-                    st.download_button(
-                        label="⬇️ Download CSV",
-                        data=csv_report,
-                        file_name=f"vendorladon_validation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
-                        mime="text/csv",
-                        use_container_width=True
-                    )
-                    st.success("✅ CSV report generated successfully!")
-                else:
-                    st.error("❌ Failed to generate CSV report - no data")
-                    
-            except Exception as e:
-                st.error(f"❌ Error generating CSV report: {str(e)}")
-                st.write("Debug info:", str(e))
-    
-    with col3:
-        st.markdown("""
-        <div class="metric-card" style="text-align: center;">
-            <h4>👁️ Data Preview</h4>
-            <p>Raw validation data</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        if st.button("👁️ View Raw Data", use_container_width=True):
-            with st.expander("📊 Raw Validation Data", expanded=True):
-                st.json(results)
-                
-                # Debug info for report generation
-                st.markdown("### 🔧 Debug Information")
-                st.write(f"**Results type**: {type(results)}")
-                st.write(f"**Results keys**: {list(results.keys()) if isinstance(results, dict) else 'Not a dict'}")
-                st.write(f"**Summary data**: {results.get('summary', 'No summary') if isinstance(results, dict) else 'N/A'}")
-                st.write(f"**Validations count**: {len(results.get('validations', {})) if isinstance(results, dict) else 'N/A'}")
+    # Simple data view option
+    if st.button("👁️ View Detailed Validation Data", use_container_width=True):
+        with st.expander("📊 Complete Validation Results", expanded=True):
+            st.json(results)
 
 def display_coldchain_results(validation_result):
     """Display enhanced cold chain validation results"""
