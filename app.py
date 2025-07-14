@@ -18,8 +18,8 @@ from utils.report_generator import ReportGenerator
 
 # Configure page
 st.set_page_config(
-    page_title="VendorLadon - EDI Validation Platform",
-    page_icon="🛡️",
+    page_title="GlitchGuard - Intelligent Supply Chain Validation Platform",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -32,6 +32,56 @@ try:
         st.cache_data.clear()
 except Exception:
     pass  # Continue if cache clear fails
+
+def detect_shipment_type(file_content: str) -> Dict[str, bool]:
+    """
+    Automatically detect shipment type and required validation modules.
+    Returns dict with boolean flags for each module.
+    """
+    content_lower = file_content.lower()
+    
+    # Always activate VendorLadon module for all EDI files
+    modules = {
+        'vendorladon': True,  # Always active
+        'coldchain': False    # Conditionally active
+    }
+    
+    # ColdChain detection keywords
+    coldchain_keywords = [
+        'frozen', 'fresh', 'refrigerat', 'temperature', 'cold', 'chilled',
+        'dairy', 'meat', 'fish', 'seafood', 'produce', 'vegetable', 'fruit',
+        'pharmaceutical', 'vaccine', 'medical', 'biotech', 'pharma',
+        'ice cream', 'yogurt', 'milk', 'cheese', 'beef', 'chicken', 'pork',
+        'temp controlled', 'cold chain', 'cold storage', 'reefer',
+        'controlled temperature', 'perishable', 'frozen food'
+    ]
+    
+    # Medical/pharmaceutical product codes
+    medical_codes = ['pharma', 'med', 'drug', 'vaccine', 'bio']
+    
+    # Check for cold chain indicators
+    for keyword in coldchain_keywords:
+        if keyword in content_lower:
+            modules['coldchain'] = True
+            break
+    
+    # Check for medical product codes
+    for code in medical_codes:
+        if code in content_lower:
+            modules['coldchain'] = True
+            break
+    
+    return modules
+
+def get_module_description(modules: Dict[str, bool]) -> str:
+    """Generate description of active modules"""
+    active_modules = []
+    if modules['vendorladon']:
+        active_modules.append("VendorLadon (EDI Validation)")
+    if modules['coldchain']:
+        active_modules.append("ColdChain (Temperature Control)")
+    
+    return " + ".join(active_modules)
 
 # Enhanced CSS for professional, sleek design
 st.markdown("""
@@ -202,8 +252,8 @@ def main():
     # Professional Header
     st.markdown("""
     <div class="main-header">
-        <h1>🛡️ VendorLadon</h1>
-        <p>Enterprise EDI Validation Platform for Walmart India</p>
+        <h1>⚡ GlitchGuard</h1>
+        <p>Intelligent Supply Chain Validation Platform</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -237,18 +287,13 @@ def main():
         )
         state_code = indian_states[selected_state]
         
-        st.markdown("### ✅ Validation Modules")
-        st.markdown("Configure which validations to execute:")
+        st.markdown("### 🎯 Intelligent Module Detection")
+        st.markdown("GlitchGuard automatically detects your shipment type and activates the right validation modules:")
         
-        col1, col2 = st.columns(2)
-        with col1:
-            validate_edi = st.checkbox("📋 EDI Structure")
-            validate_gstin = st.checkbox("🏛️ GSTIN Format")
-            validate_products = st.checkbox("📦 Product Codes")
-        with col2:
-            validate_timing = st.checkbox("⏰ ASN Timing")
-            validate_certificates = st.checkbox("🔐 AS2 Certificates")
-            validate_coldchain = st.checkbox("🧊 Cold Chain Compliance")
+        st.info("""
+        **VendorLadon Module**: Always active for all EDI files  
+        **ColdChain Module**: Auto-activated for temperature-sensitive products
+        """)
         
         # Configuration summary
         st.markdown("---")
@@ -256,14 +301,13 @@ def main():
         
         # Check if configuration is complete
         config_complete = bool(vendor_id and shipment_id)
-        active_validations = sum([validate_edi, validate_gstin, validate_products, validate_timing, validate_certificates, validate_coldchain])
         
-        if config_complete and active_validations > 0:
+        if config_complete:
             st.success(f"""
             **Vendor**: {vendor_id}  
             **Shipment**: {shipment_id}  
             **State**: {selected_state} ({state_code})  
-            **Active Validations**: {active_validations}/6
+            **Detection**: Automatic based on file content
             """)
         else:
             missing_items = []
@@ -271,8 +315,6 @@ def main():
                 missing_items.append("Vendor ID")
             if not shipment_id:
                 missing_items.append("Shipment ID")
-            if active_validations == 0:
-                missing_items.append("At least one validation")
                 
             st.warning(f"""
             **Configuration Incomplete**  
@@ -286,7 +328,7 @@ def main():
         st.markdown("## 📁 File Processing Center")
         
         # Check if configuration is ready
-        config_ready = bool(vendor_id and shipment_id and sum([validate_edi, validate_gstin, validate_products, validate_timing, validate_certificates, validate_coldchain]) > 0)
+        config_ready = bool(vendor_id and shipment_id)
         
         if not config_ready:
             st.info("👈 Please complete the configuration in the sidebar before uploading files.")
@@ -335,6 +377,14 @@ def main():
                 st.error(f"❌ Error reading file: {str(e)}")
                 return
             
+            # Auto-detect shipment type and update config
+            detected_modules = detect_shipment_type(file_content)
+            st.session_state['detected_modules'] = detected_modules
+            
+            # Display detected modules
+            st.markdown("### 🔍 Detected Modules")
+            st.write(get_module_description(detected_modules))
+            
             # Enhanced validation button
             st.markdown("<br>", unsafe_allow_html=True)
             if st.button("🔍 Execute Validation Analysis", type="primary", use_container_width=True):
@@ -343,12 +393,7 @@ def main():
                     'shipment_id': shipment_id,
                     'state_code': state_code,
                     'state_name': selected_state,
-                    'validate_edi': validate_edi,
-                    'validate_gstin': validate_gstin,
-                    'validate_products': validate_products,
-                    'validate_timing': validate_timing,
-                    'validate_certificates': validate_certificates,
-                    'validate_coldchain': validate_coldchain
+                    'detected_modules': detected_modules
                 })
         else:
             # Professional empty state
@@ -449,14 +494,23 @@ def validate_file(uploaded_file, config):
         file_handler = FileHandler()
         parsed_data = file_handler.parse_edi_file(file_content)
         
-        # Configure validation pipeline
+        # Configure validation pipeline based on detected modules
         validation_pipeline = []
-        if config['validate_edi']: validation_pipeline.append(('edi', 'EDI Structure Compliance'))
-        if config['validate_gstin']: validation_pipeline.append(('gstin', 'GSTIN Tax ID Validation'))
-        if config['validate_products']: validation_pipeline.append(('products', 'Product Code Verification'))
-        if config['validate_timing']: validation_pipeline.append(('timing', 'ASN Timing Analysis'))
-        if config['validate_certificates']: validation_pipeline.append(('certificates', 'Certificate Security Check'))
-        if config['validate_coldchain']: validation_pipeline.append(('coldchain', 'Cold Chain Compliance Check'))
+        detected_modules = config.get('detected_modules', {'vendorladon': True, 'coldchain': False})
+        
+        # VendorLadon module - always active
+        if detected_modules['vendorladon']:
+            validation_pipeline.extend([
+                ('edi', 'EDI Structure Compliance'),
+                ('gstin', 'GSTIN Tax ID Validation'),
+                ('products', 'Product Code Verification'),
+                ('timing', 'ASN Timing Analysis'),
+                ('certificates', 'Certificate Security Check')
+            ])
+        
+        # ColdChain module - conditionally active
+        if detected_modules['coldchain']:
+            validation_pipeline.append(('coldchain', 'Cold Chain Compliance Check'))
         
         total_steps = len(validation_pipeline)
         
