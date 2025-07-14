@@ -313,11 +313,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def main():
-    # Professional Header - Enhanced Visibility
+    # Professional Header - White Background
     st.markdown("""
-    <div style="background: #007BFF; padding: 2rem; border-radius: 15px; text-align: center; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);">
-        <h1 style="color: white; font-size: 3rem; margin: 0; font-weight: bold;">⚡ GlitchGuard</h1>
-        <p style="color: white; font-size: 1.2rem; margin: 0.5rem 0 0 0;">Intelligent Supply Chain Validation Platform</p>
+    <div style="background: white; padding: 2rem; border-radius: 15px; text-align: center; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border: 2px solid #007BFF;">
+        <h1 style="color: #007BFF; font-size: 3rem; margin: 0; font-weight: bold;">⚡ GlitchGuard</h1>
+        <p style="color: #333333; font-size: 1.2rem; margin: 0.5rem 0 0 0;">Intelligent Supply Chain Validation Platform</p>
     </div>
     """, unsafe_allow_html=True)
 
