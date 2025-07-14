@@ -18,24 +18,24 @@ from utils.report_generator import ReportGenerator
 
 # Configure page
 st.set_page_config(
-    page_title="🌙 GlitchGuard DARK - AI Retail Validator [LIVE UPDATE]",
-    page_icon="🌙",
+    page_title="GlitchGuard - AI Retail Validator",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# DARK THEME ACTIVATED - IMMEDIATE UPDATE
+# WHITE THEME ACTIVATED
 st.markdown("""
 <style>
     .stApp {
-        background-color: #0E1117;
-        color: #FAFAFA;
+        background-color: #FFFFFF;
+        color: #333333;
     }
     .stSidebar {
-        background-color: #262730;
+        background-color: #F8F9FA;
     }
     .stButton > button {
-        background-color: #FF6B6B;
+        background-color: #007BFF;
         color: white;
         border: none;
         border-radius: 10px;
@@ -43,57 +43,42 @@ st.markdown("""
         font-weight: bold;
     }
     .stSelectbox > div > div {
-        background-color: #262730;
-        color: white;
+        background-color: #FFFFFF;
+        color: #333333;
     }
     .metric-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
         padding: 1rem;
         border-radius: 10px;
         margin: 0.5rem 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     .error-card {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-        color: white;
+        background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+        color: #C62828;
         padding: 1rem;
         border-radius: 10px;
         margin: 0.5rem 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     .success-card {
-        background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-        color: white;
+        background: linear-gradient(135deg, #E8F5E8 0%, #C8E6C9 100%);
+        color: #2E7D32;
         padding: 1rem;
         border-radius: 10px;
         margin: 0.5rem 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     h1, h2, h3 {
-        color: #FF6B6B !important;
+        color: #1976D2 !important;
     }
     .stMarkdown {
-        color: #FAFAFA;
+        color: #333333;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# 🌙 DARK MODE HEADER - LIVE UPDATE ACTIVE
-st.markdown(f"""
-<div style="background: linear-gradient(135deg, #1f4e79 0%, #2d5aa0 100%); padding: 2rem; border-radius: 15px; color: white; text-align: center; margin-bottom: 2rem;">
-    <h1>🌙 GlitchGuard DARK MODE</h1>
-    <h2>AI-Powered Retail Validation Platform</h2>
-    <p><strong>🚀 LIVE UPDATE: {datetime.now().strftime('%H:%M:%S')}</strong></p>
-    <p>Automatically detect glitches, validate data integrity, and catch critical errors before they impact your business!</p>
-</div>
-""", unsafe_allow_html=True)
 
-# IMMEDIATE DARK THEME NOTICE
-st.markdown("""
-<div style="background: #FF6B6B; color: white; padding: 1rem; border-radius: 10px; text-align: center; margin-bottom: 1rem; font-weight: bold; font-size: 1.2rem;">
-    🌙 DARK THEME IS NOW ACTIVE! 🌙 Changes are LIVE!
-</div>
-""", unsafe_allow_html=True)
 
 # Add error handling for deployment issues
 try:
@@ -203,6 +188,7 @@ st.markdown("""
         border: 1px solid rgba(0, 0, 0, 0.05);
         margin: 0.5rem 0;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+        color: #333333;
     }
     
     .metric-card:hover {
@@ -236,7 +222,7 @@ st.markdown("""
     
     /* Button Styles */
     .stButton > button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #007BFF 0%, #0056B3 100%);
         color: white;
         border: none;
         border-radius: 10px;
@@ -244,12 +230,12 @@ st.markdown("""
         font-weight: 600;
         font-size: 1rem;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
     }
     
     .stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
     }
     
     /* Sidebar Styles */
@@ -325,11 +311,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def main():
-    # Professional Header - DARK THEME VERSION
+    # Professional Header
     st.markdown("""
     <div class="main-header">
-        <h1>🌙 GlitchGuard DARK MODE</h1>
-        <p>Intelligent Supply Chain Validation Platform - DARK THEME ACTIVE</p>
+        <h1>⚡ GlitchGuard</h1>
+        <p>Intelligent Supply Chain Validation Platform</p>
     </div>
     """, unsafe_allow_html=True)
 
