@@ -10,16 +10,6 @@ from datetime import datetime
 class EDIValidator:
     def __init__(self):
         self.required_segments = ['ISA', 'GS', 'ST', 'BSN', 'HL', 'SE', 'GE', 'IEA']
-        self.segment_patterns = {
-            'ISA': r'^ISA\*',
-            'GS': r'^GS\*',
-            'ST': r'^ST\*856\*',  # 856 is ASN transaction set
-            'BSN': r'^BSN\*',
-            'HL': r'^HL\*',
-            'SE': r'^SE\*',
-            'GE': r'^GE\*',
-            'IEA': r'^IEA\*'
-        }
     
     def validate(self, parsed_data: Dict[str, Any], config: Dict[str, Any]) -> Dict[str, Any]:
         """Validate EDI structure"""
@@ -27,7 +17,101 @@ class EDIValidator:
         warnings = []
         
         try:
-            # Check if file content exists
+            # Get file content - check multiple possible keys
+            file_content = ""
+            if 'content' in parsed_data:
+                file_content = parsed_data['content']
+            elif 'raw_content' in parsed_data:
+                file_content = parsed_data['raw_content']
+            elif isinstance(parsed_data, str):
+                file_content = parsed_data
+            
+            if not file_content:
+                errors.append({
+                    'message': 'No file content found for validation',
+                    'segment': 'FILE',
+                    'details': 'Cannot validate empty or missing file content',
+                    'suggestion': 'Ensure file is properly uploaded and contains data'
+                })
+                return {
+                    'validator': 'EDI Structure Validator',
+                    'errors': errors,
+                    'warnings': warnings,
+                    'success': False,
+                    'details': 'Validation failed - no content'
+                }
+            
+            # Check for required segments
+            missing_segments = []
+            for segment in self.required_segments:
+                if segment + '*' not in file_content:
+                    missing_segments.append(segment)
+            
+            if missing_segments:
+                errors.append({
+                    'message': f'Missing required EDI segments: {", ".join(missing_segments)}',
+                    'segment': 'STRUCTURE',
+                    'details': f'EDI file must contain all required segments for proper processing',
+                    'suggestion': f'Add missing segments: {", ".join(missing_segments)}'
+                })
+            
+            # Check ISA segment format
+            if 'ISA*' in file_content:
+                isa_lines = [line for line in file_content.split('\n') if line.strip().startswith('ISA*')]
+                if isa_lines:
+                    isa_parts = isa_lines[0].split('*')
+                    if len(isa_parts) < 16:
+                        errors.append({
+                            'message': 'ISA segment has insufficient fields',
+                            'segment': 'ISA',
+                            'details': f'ISA segment has {len(isa_parts)} fields, requires 16',
+                            'suggestion': 'Ensure ISA segment follows EDI X12 standard format'
+                        })
+            
+            # Check vendor ID format in config
+            vendor_id = config.get('vendor_id', '')
+            if vendor_id and not vendor_id.startswith('WMTIN-'):
+                warnings.append({
+                    'message': 'Vendor ID format may not follow Walmart India standard',
+                    'segment': 'CONFIG',
+                    'details': f'Vendor ID "{vendor_id}" does not start with WMTIN-',
+                    'suggestion': 'Verify vendor ID format with Walmart India standards'
+                })
+            
+            # Check for proper line endings
+            if not file_content.strip().endswith('~'):
+                warnings.append({
+                    'message': 'EDI file should end with segment terminator (~)',
+                    'segment': 'FILE',
+                    'details': 'File does not end with proper EDI segment terminator',
+                    'suggestion': 'Add ~ at the end of your EDI file'
+                })
+            
+            # Success case
+            success = len(errors) == 0
+            details = f"EDI structure validation completed. Found {len(self.required_segments) - len(missing_segments)}/{len(self.required_segments)} required segments."
+            
+            return {
+                'validator': 'EDI Structure Validator',
+                'errors': errors,
+                'warnings': warnings,
+                'success': success,
+                'details': details
+            }
+            
+        except Exception as e:
+            return {
+                'validator': 'EDI Structure Validator',
+                'errors': [{
+                    'message': f'Validation error: {str(e)}',
+                    'segment': 'SYSTEM',
+                    'details': 'Internal validation error occurred',
+                    'suggestion': 'Contact support if this error persists'
+                }],
+                'warnings': [],
+                'success': False,
+                'details': f'Validation failed with error: {str(e)}'
+            }
             if not parsed_data.get('content'):
                 errors.append({
                     'segment': 'FILE',

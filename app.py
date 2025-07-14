@@ -8,11 +8,11 @@ import re
 
 # Import validation modules
 from validators.edi_validator import EDIValidator
-from validators.gstin_validator import GSTINValidator
-from validators.product_validator import ProductValidator
-from validators.timing_validator import TimingValidator
-from validators.certificate_validator import CertificateValidator
-from validators.coldchain_validator import ColdChainValidator
+from validators.gstin_validator_simple import GSTINValidator
+from validators.product_validator_simple import ProductValidator
+from validators.timing_validator_simple import TimingValidator
+from validators.certificate_validator_simple import CertificateValidator
+from validators.coldchain_validator_simple import ColdChainValidator
 from utils.file_handler import FileHandler
 from utils.report_generator import ReportGenerator
 
