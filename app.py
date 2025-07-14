@@ -18,48 +18,77 @@ from utils.report_generator import ReportGenerator
 
 # Configure page
 st.set_page_config(
-    page_title="GlitchGuard - Intelligent Supply Chain Validation Platform",
-    page_icon="⚡",
+    page_title="🌙 GlitchGuard DARK - AI Retail Validator [LIVE UPDATE]",
+    page_icon="🌙",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Force cache clear and set dark theme
+# DARK THEME ACTIVATED - IMMEDIATE UPDATE
 st.markdown("""
 <style>
     .stApp {
-        background-color: #0e1117;
-        color: #fafafa;
+        background-color: #0E1117;
+        color: #FAFAFA;
     }
-    .main .block-container {
-        background-color: #0e1117;
-        padding-top: 1rem;
-        max-width: 1200px;
-    }
-    .stSidebar .sidebar-content {
+    .stSidebar {
         background-color: #262730;
     }
-    .main-header {
-        background: linear-gradient(135deg, #1f4e79 0%, #2d5aa0 100%);
-        padding: 2rem;
-        border-radius: 15px;
+    .stButton > button {
+        background-color: #FF6B6B;
         color: white;
-        text-align: center;
-        margin-bottom: 2rem;
+        border: none;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        font-weight: bold;
     }
-    .main-header h1 {
-        font-size: 2.5rem;
-        margin: 0;
+    .stSelectbox > div > div {
+        background-color: #262730;
+        color: white;
     }
     .metric-card {
-        background: #262730;
-        padding: 1.5rem;
-        border-radius: 12px;
-        border: 1px solid #404040;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 1rem;
+        border-radius: 10px;
         margin: 0.5rem 0;
-        color: #fafafa;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     }
-    .stButton > button {
+    .error-card {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        margin: 0.5rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    .success-card {
+        background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        margin: 0.5rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    h1, h2, h3 {
+        color: #FF6B6B !important;
+    }
+    .stMarkdown {
+        color: #FAFAFA;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# 🌙 DARK MODE HEADER - LIVE UPDATE ACTIVE
+st.markdown(f"""
+<div style="background: linear-gradient(135deg, #1f4e79 0%, #2d5aa0 100%); padding: 2rem; border-radius: 15px; color: white; text-align: center; margin-bottom: 2rem;">
+    <h1>🌙 GlitchGuard DARK MODE</h1>
+    <h2>AI-Powered Retail Validation Platform</h2>
+    <p><strong>🚀 LIVE UPDATE: {datetime.now().strftime('%H:%M:%S')}</strong></p>
+    <p>Automatically detect glitches, validate data integrity, and catch critical errors before they impact your business!</p>
+</div>
+""", unsafe_allow_html=True)
+
+
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border: none;
