@@ -5,16 +5,16 @@ This folder contains sample EDI files to test the GlitchGuard validation system.
 ## Available Sample Files:
 
 ### 1. **sample_basic_shipment.txt**
-- **Type**: Basic EDI shipment (VendorLadon module only)
+- **Type**: Basic EDI shipment (GlitchGuard comprehensive validation)
 - **Products**: Dry goods (rice, wheat flour)
 - **Expected Result**: ✅ Should pass all basic validations
 - **Tests**: EDI structure, GSTIN, product codes, timing, certificates
 
-### 2. **sample_coldchain_shipment.txt** 
-- **Type**: Cold chain shipment (VendorLadon + ColdChain modules)
+### 2. **sample_temperature_sensitive_shipment.txt** 
+- **Type**: Temperature-sensitive products shipment (GlitchGuard validation)
 - **Products**: Frozen chicken, milk, ice cream, vaccines
-- **Expected Result**: ✅ Should pass with cold chain compliance
-- **Tests**: All basic validations + temperature control requirements
+- **Expected Result**: ✅ Should pass comprehensive validation
+- **Tests**: All GlitchGuard validations including product classification
 
 ### 3. **sample_error_shipment.txt**
 - **Type**: Intentionally flawed shipment  
@@ -85,20 +85,21 @@ This folder contains sample EDI files to test the GlitchGuard validation system.
 
 ## Module Detection:
 
-The system will automatically detect and activate:
+The system automatically activates:
 
-- **VendorLadon**: Always active for all EDI files
-- **ColdChain**: Activated for files containing keywords like:
-  - `frozen`, `fresh`, `refrigerat`, `cold`, `chilled`
-  - `dairy`, `meat`, `pharmaceutical`, `vaccine`
-  - `temperature`, `temp controlled`
+- **GlitchGuard**: Comprehensive EDI validation including:
+  - EDI structure compliance
+  - GSTIN tax validation  
+  - Product code verification
+  - ASN timing analysis
+  - Certificate security checks
 
 ## Testing Tips:
 
 1. **Try Different States**: Test GSTIN validation with various Indian states
 2. **Compare Results**: Upload different files to see validation differences  
-3. **Check Reports**: Download JSON/CSV reports to see detailed data
-4. **Error Analysis**: Use error file to understand validation logic
-5. **Module Switching**: Notice how cold chain detection works automatically
+3. **Error Analysis**: Use error file to understand validation logic
+4. **Product Variety**: Notice how different product types are handled
+5. **Comprehensive Testing**: All files test the complete GlitchGuard validation suite
 
 These files will help you understand the complete validation process and see how GlitchGuard handles different supply chain scenarios!
