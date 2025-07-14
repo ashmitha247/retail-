@@ -1,6 +1,6 @@
-# VendorLadon Screenshot Placeholders
+# GlitchGuard Screenshot Placeholders
 
-This directory contains placeholder images representing the VendorLadon interface.
+This directory contains placeholder images representing the GlitchGuard interface.
 
 ## Screenshots Available:
 1. **main-interface.png** - Main application interface

@@ -7,27 +7,29 @@ Enterprise-grade validation platform designed to **catch mistakes before they re
 
 ## 🎯 What is GlitchGuard?
 
-GlitchGuard is a modular shipment validation system built to **act as a net that catches issues early** in the supply chain—*not after the damage is done*.
+GlitchGuard is a comprehensive shipment validation system built to **act as a net that catches issues early** in the supply chain—*not after the damage is done*.
 
-To make this possible, we've designed two focused validation modules that work in tandem:
+**Comprehensive EDI Validation** includes:
+- EDI structure compliance verification
+- GSTIN tax ID validation  
+- Product code verification
+- ASN timing analysis
+- Certificate security checks
 
-1. **VendorLadon Module** – ensures digital documentation like EDI files are accurate and legally compliant.
-2. **ColdChain Compliance Module** – validates temperature-sensitive shipments using IoT data, sensor health checks, and spoilage risk prediction.
-
-No manual setup is needed—GlitchGuard detects shipment type and activates the right modules automatically.
+No manual setup is needed—GlitchGuard automatically validates all aspects of your EDI shipment files.
 
 ---
 
 ## 🧩 How GlitchGuard Works
 
-### 1. Smart Shipment Detection
+### 1. Smart File Processing
 
 * Upload your shipment file (.txt, .edi, .x12, .csv)
-* System auto-identifies:
-
-  * Shipment type (standard or cold-chain)
-  * Required validations
-* VendorLadon and ColdChain modules run based on shipment contents.
+* System automatically processes and validates:
+  * Document structure and format
+  * Tax compliance requirements
+  * Product information accuracy  
+  * Timing and certification data
 
 ### 2. Real-Time Validation Pipeline
 
@@ -56,41 +58,44 @@ No manual setup is needed—GlitchGuard detects shipment type and activates the 
 
 ---
 
-## 🧊 ColdChain Compliance Module
+## 📋 GlitchGuard Comprehensive Validation
 
-This module ensures **temperature-sensitive shipments are validated thoroughly before they leave the warehouse**.
+Ensures every aspect of your EDI shipment documentation is **accurate, timely, and legally valid**.
 
-### Key Capabilities:
+### Key Validation Components:
 
-* **IoT Integration:**
+* **EDI Structure Compliance:**
+  * Validates proper segment formatting
+  * Checks required fields and data types
+  * Ensures document completeness
 
-  * Live temperature feeds
-  * Sensor calibration and battery checks
-  * Multi-zone monitoring
-  * Data stability scoring
+* **GSTIN Tax Validation:**
+  * Verifies Indian tax ID format (15-digit)
+  * Validates state codes and check digits
+  * Ensures compliance with GST regulations
 
-* **AI Risk Prediction:**
+* **Product Code Verification:**
+  * Checks product identification numbers
+  * Validates UPC/EAN codes where applicable
+  * Ensures product data consistency
 
-  * Spoilage risk classified as LOW / MEDIUM / HIGH
-  * Model trained on real shipment data
-  * Factors in route history, humidity, sensor variance
+* **ASN Timing Analysis:**
+  * Validates shipment dates and timelines
+  * Checks delivery schedules
+  * Ensures timing compliance requirements
 
-* **Legal Compliance Checks:**
+* **Certificate Security Checks:**
+  * Validates required certifications
+  * Checks compliance documentation
+  * Ensures regulatory requirements are met
 
-  * FSSAI license validation (14-digit format + expiry)
-  * Sanitation certificate checks
-  * Sensor calibration status (annual requirement)
-  * All validations logged cryptographically
-
-* **Preventive Focus:**
-  Unlike many existing systems that only detect issues *after* arrival, this module stops shipments that are non-compliant or at high spoilage risk—*before they're dispatched*.
+### Benefits:
+* **Prevents Rejections:** Catches documentation errors before submission
+* **Ensures Compliance:** Validates all regulatory requirements
+* **Saves Time:** Automated validation reduces manual review
+* **Reduces Costs:** Prevents costly shipment delays and penalties
 
 ---
-
-## 📋 VendorLadon Module
-
-Ensures the digital paperwork behind every shipment is **accurate, timely, and legally valid**.
-
 ### What It Checks:
 
 | Validation Type       | What It Does                                              |
@@ -108,43 +113,35 @@ All of these are run automatically when a shipment file is uploaded.
 ## 👤 Who Uses the Platform?
 
 * **Vendors:**
-
-  * Upload their EDI files
-  * Select shipment type (ColdChain is auto-detected)
+  * Upload their EDI files for comprehensive validation
   * Monitor validation status in real-time
-  * Fix issues before Walmart receives the shipment
+  * Fix issues before submitting to retailers
+  * Ensure all compliance requirements are met
 
 * **Compliance Teams / 3PLs:**
-
-  * Review dashboard insights, sensor data, and audit trails
-  * Generate downloadable compliance reports
-  * Ensure all documentation and risk scores pass internal thresholds
+  * Review validation results and documentation
+  * Generate compliance reports
+  * Ensure all regulatory requirements are satisfied
 
 ---
 
 ## 🚀 Getting Started
 
 1. **Launch GlitchGuard**
-
    * Click the platform link and open the dashboard
 
 2. **Set Up Shipment Details**
-
    * Vendor ID
-   * Shipment ID
+   * Shipment ID  
    * Indian state for GSTIN verification
-   * (Optional) Enable ColdChain if handling temperature-sensitive goods
 
 3. **Upload EDI File**
-
    * Drag and drop supported formats
-   * Platform will run all applicable checks
+   * Platform automatically runs comprehensive validation
 
 4. **Review Results**
-
    * See progress indicators and validation outcomes
-   * Download professional compliance reports
-   * Fix any flagged issues before dispatch
+   * Fix any flagged issues before submission
 
 ---
 
@@ -156,8 +153,8 @@ All of these are run automatically when a shipment file is uploaded.
 
 * Chrome ✅ (recommended for all features)
 * Firefox ✅
-* Edge ✅
-* Safari ✅ (basic ColdChain supported)
+* Edge ✅  
+* Safari ✅
 
 ---
 
@@ -165,10 +162,10 @@ All of these are run automatically when a shipment file is uploaded.
 
 | Problem                          | Suggested Fix                                                             |
 | -------------------------------- | ------------------------------------------------------------------------- |
-| ColdChain not activating         | Ensure product is marked temperature-sensitive and module is enabled      |
-| Spoilage risk too high           | Review route temperature history, sensor accuracy, and handling protocols |
 | EDI file not uploading           | Ensure format is supported and file size is under 10MB                    |
-| Sensor data looks wrong          | Check calibration date and battery level in the IoT panel                 |
-| Compliance document failed check | Double-check FSSAI and sanitation expiry and formatting                   |
+| GSTIN validation failing         | Check 15-digit format and verify state code matches your location        |
+| Product codes rejected           | Ensure all product SKUs are properly formatted and registered            |
+| Certificate validation errors    | Verify all required certificates are included and properly formatted     |
+| Timing validation issues         | Check shipment dates are within acceptable delivery windows              |
 
 ---

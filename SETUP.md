@@ -1,4 +1,4 @@
-# VendorLadon - EDI Validation Application
+# GlitchGuard - EDI Validation Application
 
 ## Quick Start
 
