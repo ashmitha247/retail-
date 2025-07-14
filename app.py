@@ -740,11 +740,6 @@ def display_validation_results(results):
         - 📋 {results['summary']['total_validations']} validations completed
         - 🔧 Please address issues before submission
         """)
-    
-    # Simple data view option
-    if st.button("👁️ View Detailed Validation Data", use_container_width=True):
-        with st.expander("📊 Complete Validation Results", expanded=True):
-            st.json(results)
 
 def display_coldchain_results(validation_result):
     """Display enhanced cold chain validation results"""
