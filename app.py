@@ -24,6 +24,51 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Force cache clear and set dark theme
+st.markdown("""
+<style>
+    .stApp {
+        background-color: #0e1117;
+        color: #fafafa;
+    }
+    .main .block-container {
+        background-color: #0e1117;
+        padding-top: 1rem;
+        max-width: 1200px;
+    }
+    .stSidebar .sidebar-content {
+        background-color: #262730;
+    }
+    .main-header {
+        background: linear-gradient(135deg, #1f4e79 0%, #2d5aa0 100%);
+        padding: 2rem;
+        border-radius: 15px;
+        color: white;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .main-header h1 {
+        font-size: 2.5rem;
+        margin: 0;
+    }
+    .metric-card {
+        background: #262730;
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid #404040;
+        margin: 0.5rem 0;
+        color: #fafafa;
+    }
+    .stButton > button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # Add error handling for deployment issues
 try:
     # Check if running on Streamlit Cloud
@@ -32,6 +77,11 @@ try:
         st.cache_data.clear()
 except Exception:
     pass  # Continue if cache clear fails
+
+# Force cache clear and rerun for immediate deployment
+if 'force_rerun' not in st.session_state:
+    st.session_state['force_rerun'] = True
+    st.rerun()
 
 def detect_shipment_type(file_content: str) -> Dict[str, bool]:
     """
