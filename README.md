@@ -1,46 +1,60 @@
-# 🛡️ VendorLadon - Advanced EDI & ColdChain Validation Platform
+# ⚡ GlitchGuard - Intelligent Supply Chain Validation Platform
 
-**🚀 [Try VendorLadon Online - Click Here!](https://ashmitha247-retail--app-zurwdh.streamlit.app)**
+<div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 2rem; border-radius: 10px; color: #ffffff;">
 
-*AI-powered validation with IoT sensor monitoring, machine learning risk prediction, and comprehensive compliance checking*
+**🔗 [Access GlitchGuard Platform](https://ashmitha247-retail--app-zurwdh.streamlit.app)**
 
----
+*Enterprise-grade validation platform with intelligent detection and automated compliance*
 
-## 🎯 What is VendorLadon?
-
-**VendorLadon** is an advanced, AI-powered validation platform designed for **Retail India vendors** to ensure their **EDI (Electronic Data Interchange)** files and **cold chain shipments** meet all compliance requirements. Our platform combines traditional EDI validation with cutting-edge **IoT sensor monitoring**, **machine learning risk prediction**, and **real-time compliance checking** for temperature-sensitive shipments.
-
-### 🚀 **Revolutionary Features**
-- **🤖 AI-Powered Risk Prediction**: Machine learning models predict spoilage risk
-- **📡 IoT Sensor Integration**: Real-time temperature monitoring and sensor health checks  
-- **🧊 ColdChain Compliance**: Advanced validation for temperature-sensitive products
-- **📋 Comprehensive EDI Validation**: Traditional document format and compliance checking
-- **📊 Real-time Analytics**: Live monitoring dashboards with professional visualizations
-- **🔍 Smart Error Detection**: Intelligent issue identification with actionable solutions
+</div>
 
 ---
 
-## 🏪 **What Problems Does VendorLadon Solve?**
+## 🎯 What is GlitchGuard?
 
-### **Traditional EDI Challenges:**
-- ❌ **Manual Validation**: Time-consuming checks prone to human error
-- ❌ **Rejected Shipments**: Files rejected due to format/compliance issues  
-- ❌ **Lost Revenue**: Delays in shipment processing cost money
-- ❌ **Complex Requirements**: Hard to understand EDI compliance rules
+**GlitchGuard** is an intelligent supply chain validation platform that automatically detects and validates different types of shipments. The platform includes specialized modules that activate based on your shipment characteristics:
 
-### **ColdChain & Food Safety Challenges:**
-- ❌ **Temperature Violations**: Products spoil due to poor temperature control
-- ❌ **Sensor Failures**: Uncalibrated or faulty IoT sensors cause data issues
-- ❌ **Compliance Gaps**: Missing FSSAI licenses or expired sanitation certificates
-- ❌ **Risk Uncertainty**: No way to predict spoilage risk before shipping
+### � **VendorLadon Module**
+- **Purpose**: EDI document validation for Retail India vendors
+- **Activation**: Automatically runs for all EDI file uploads
+- **Capabilities**: Format validation, GSTIN checking, product codes, timing, certificates
 
-### **With VendorLadon's Advanced Platform:**
-- ✅ **AI-Powered Validation**: Machine learning detects issues before they occur
-- ✅ **Real-time Monitoring**: IoT sensors provide live temperature tracking
-- ✅ **Zero Temperature Violations**: Comprehensive cold chain compliance checking
-- ✅ **Predictive Analytics**: ML models forecast spoilage risk with confidence scores
-- ✅ **Complete Compliance**: Automated FSSAI, sanitation, and calibration validation
-- ✅ **Professional Reports**: Detailed analytics for audit trails and optimization
+### 🧊 **ColdChain Compliance Module** 
+- **Purpose**: Temperature-sensitive shipment validation
+- **Activation**: Automatically detects cold chain products and engages advanced monitoring
+- **Capabilities**: IoT sensor monitoring, AI spoilage prediction, compliance documentation
+
+---
+
+## 🔧 How GlitchGuard Works
+
+### **Intelligent Detection**
+- Upload your EDI file to the platform
+- GlitchGuard **automatically analyzes** product types and shipment requirements
+- **VendorLadon module** validates standard EDI compliance for all files
+- **ColdChain module** activates when temperature-sensitive products are detected
+
+### **Automated Processing**
+- No manual configuration required for basic operations
+- Platform intelligently routes shipments to appropriate validation modules
+- Real-time processing with live status updates
+- Comprehensive reporting across all active modules
+
+---
+
+## ⚡ **Platform Advantages**
+
+### **Before GlitchGuard:**
+- ❌ **Manual Product Classification**: Users had to identify shipment types themselves
+- ❌ **Separate Tool Management**: Different validation tools for different shipment types  
+- ❌ **Configuration Complexity**: Manual setup for compliance requirements
+- ❌ **Missing Validations**: Easy to forget critical checks for specific product types
+
+### **With GlitchGuard:**
+- ✅ **Intelligent Classification**: Platform automatically identifies shipment types
+- ✅ **Unified Interface**: Single platform handles all validation modules
+- ✅ **Zero Configuration**: Automatic activation of required compliance modules
+- ✅ **Complete Coverage**: Ensures all necessary validations run automatically
 
 ---
 
