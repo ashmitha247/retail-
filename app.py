@@ -88,14 +88,11 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        padding: 0.75rem 2rem;
-    }
-</style>
+# IMMEDIATE DARK THEME NOTICE
+st.markdown("""
+<div style="background: #FF6B6B; color: white; padding: 1rem; border-radius: 10px; text-align: center; margin-bottom: 1rem; font-weight: bold; font-size: 1.2rem;">
+    🌙 DARK THEME IS NOW ACTIVE! 🌙 Changes are LIVE!
+</div>
 """, unsafe_allow_html=True)
 
 # Add error handling for deployment issues
@@ -328,11 +325,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def main():
-    # Professional Header
+    # Professional Header - DARK THEME VERSION
     st.markdown("""
     <div class="main-header">
-        <h1>⚡ GlitchGuard</h1>
-        <p>Intelligent Supply Chain Validation Platform</p>
+        <h1>🌙 GlitchGuard DARK MODE</h1>
+        <p>Intelligent Supply Chain Validation Platform - DARK THEME ACTIVE</p>
     </div>
     """, unsafe_allow_html=True)
 
