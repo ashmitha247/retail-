@@ -14,7 +14,6 @@ from validators.gstin_validator_simple import GSTINValidator
 from validators.product_validator_simple import ProductValidator
 from validators.timing_validator_simple import TimingValidator
 from validators.certificate_validator_simple import CertificateValidator
-from validators.coldchain_validator_simple import ColdChainValidator
 from utils.file_handler import FileHandler
 
 # Configure page
@@ -102,46 +101,18 @@ def detect_shipment_type(file_content: str) -> Dict[str, bool]:
     """
     content_lower = file_content.lower()
     
-    # Always activate VendorLadon module for all EDI files
+    # Always activate GlitchGuard module for all EDI files
     modules = {
-        'vendorladon': True,  # Always active
-        'coldchain': False    # Conditionally active
+        'glitchguard': True  # Always active for comprehensive EDI validation
     }
-    
-    # ColdChain detection keywords
-    coldchain_keywords = [
-        'frozen', 'fresh', 'refrigerat', 'temperature', 'cold', 'chilled',
-        'dairy', 'meat', 'fish', 'seafood', 'produce', 'vegetable', 'fruit',
-        'pharmaceutical', 'vaccine', 'medical', 'biotech', 'pharma',
-        'ice cream', 'yogurt', 'milk', 'cheese', 'beef', 'chicken', 'pork',
-        'temp controlled', 'cold chain', 'cold storage', 'reefer',
-        'controlled temperature', 'perishable', 'frozen food'
-    ]
-    
-    # Medical/pharmaceutical product codes
-    medical_codes = ['pharma', 'med', 'drug', 'vaccine', 'bio']
-    
-    # Check for cold chain indicators
-    for keyword in coldchain_keywords:
-        if keyword in content_lower:
-            modules['coldchain'] = True
-            break
-    
-    # Check for medical product codes
-    for code in medical_codes:
-        if code in content_lower:
-            modules['coldchain'] = True
-            break
     
     return modules
 
 def get_module_description(modules: Dict[str, bool]) -> str:
     """Generate description of active modules"""
     active_modules = []
-    if modules['vendorladon']:
-        active_modules.append("VendorLadon (EDI Validation)")
-    if modules['coldchain']:
-        active_modules.append("ColdChain (Temperature Control)")
+    if modules['glitchguard']:
+        active_modules.append("GlitchGuard (Comprehensive EDI Validation)")
     
     return " + ".join(active_modules)
 
@@ -356,8 +327,7 @@ def main():
         st.markdown("GlitchGuard automatically detects your shipment type and activates the right validation modules:")
         
         st.info("""
-        **VendorLadon Module**: Always active for all EDI files  
-        **ColdChain Module**: Auto-activated for temperature-sensitive products
+        **GlitchGuard Module**: Comprehensive EDI validation including structure compliance, tax validation, product verification, timing analysis, and certificate security checks.
         """)
         
         # Configuration summary
@@ -561,10 +531,10 @@ def validate_file(uploaded_file, config):
         
         # Configure validation pipeline based on detected modules
         validation_pipeline = []
-        detected_modules = config.get('detected_modules', {'vendorladon': True, 'coldchain': False})
+        detected_modules = config.get('detected_modules', {'glitchguard': True})
         
-        # VendorLadon module - always active
-        if detected_modules['vendorladon']:
+        # GlitchGuard module - always active (comprehensive validation)
+        if detected_modules['glitchguard']:
             validation_pipeline.extend([
                 ('edi', 'EDI Structure Compliance'),
                 ('gstin', 'GSTIN Tax ID Validation'),
@@ -572,10 +542,6 @@ def validate_file(uploaded_file, config):
                 ('timing', 'ASN Timing Analysis'),
                 ('certificates', 'Certificate Security Check')
             ])
-        
-        # ColdChain module - conditionally active
-        if detected_modules['coldchain']:
-            validation_pipeline.append(('coldchain', 'Cold Chain Compliance Check'))
         
         total_steps = len(validation_pipeline)
         
@@ -596,8 +562,6 @@ def validate_file(uploaded_file, config):
                 validator = TimingValidator()
             elif validation_type == 'certificates':
                 validator = CertificateValidator()
-            elif validation_type == 'coldchain':
-                validator = ColdChainValidator()
             
             validation_result = validator.validate(parsed_data, config)
             results['validations'][validation_type] = validation_result
@@ -713,11 +677,7 @@ def display_validation_results(results):
     
     for i, (validation_type, validation_result) in enumerate(results['validations'].items()):
         with tabs[i]:
-            # Special handling for cold chain validation
-            if validation_type == 'coldchain':
-                display_coldchain_results(validation_result)
-            else:
-                display_standard_validation_results(validation_result)
+            display_standard_validation_results(validation_result)
 
     # Simple Validation Complete Message
     st.markdown("---")
@@ -740,66 +700,6 @@ def display_validation_results(results):
         - 📋 {results['summary']['total_validations']} validations completed
         - 🔧 Please address issues before submission
         """)
-
-def display_coldchain_results(validation_result):
-    """Display enhanced cold chain validation results"""
-    if validation_result.get('overall_status') == 'APPROVED':
-        st.markdown("""
-        <div class="success-card">
-            <h5 style="margin-top: 0;">🧊✅ Cold Chain Compliance Approved</h5>
-            <p>All temperature monitoring and compliance checks passed successfully.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Show detailed metrics
-        col1, col2, col3 = st.columns(3)
-        
-        if 'sensor_health' in validation_result:
-            sensor_health = validation_result['sensor_health']
-            with col1:
-                st.metric("Sensor Health", sensor_health.get('data_quality', 'N/A'))
-                
-        if 'spoilage_risk' in validation_result:
-            spoilage_risk = validation_result['spoilage_risk']
-            with col2:
-                risk_level = spoilage_risk.get('risk_level', 'UNKNOWN')
-                risk_score = spoilage_risk.get('risk_score', 0)
-                st.metric("Spoilage Risk", f"{risk_level} ({risk_score:.1%})")
-                
-        if 'document_compliance' in validation_result:
-            docs = validation_result['document_compliance']
-            compliance_count = sum([docs.get('fssai_valid', False), 
-                                  docs.get('sanitation_valid', False), 
-                                  docs.get('calibration_valid', False)])
-            with col3:
-                st.metric("Document Compliance", f"{compliance_count}/3")
-                
-    elif validation_result.get('overall_status') == 'BLOCKED':
-        st.markdown("""
-        <div class="error-card">
-            <h5 style="margin-top: 0;">🧊❌ Cold Chain Compliance Failed</h5>
-            <p>Critical issues detected that prevent shipment approval.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        if validation_result.get('blocking_issues'):
-            st.markdown("#### 🚨 Blocking Issues")
-            for issue in validation_result['blocking_issues']:
-                st.markdown(f"""
-                <div class="error-card">
-                    <p><strong>Critical:</strong> {issue}</p>
-                </div>
-                """, unsafe_allow_html=True)
-    
-    # Show warnings if any
-    if validation_result.get('warnings'):
-        st.markdown("#### ⚠️ Advisory Notices")
-        for warning in validation_result['warnings']:
-            st.markdown(f"""
-            <div class="warning-card">
-                <p><strong>Warning:</strong> {warning}</p>
-            </div>
-            """, unsafe_allow_html=True)
 
 def display_standard_validation_results(validation_result):
     """Display standard validation results (existing logic)"""
@@ -842,99 +742,6 @@ def display_standard_validation_results(validation_result):
             <p>This validation completed without any issues to report.</p>
         </div>
         """, unsafe_allow_html=True)
-
-def display_coldchain_validation_results(validation_result):
-    """Display ColdChain validation results with enhanced IoT and ML displays"""
-    
-    # Temperature Monitoring Section
-    if 'temperature_data' in validation_result:
-        temp_data = validation_result['temperature_data']
-        st.markdown("#### 🌡️ Temperature Monitoring")
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            avg_temp = temp_data.get('average_temp', 0)
-            st.metric("Average Temperature", f"{avg_temp}°C", 
-                     delta=f"{avg_temp - temp_data.get('target_temp', 4):.1f}°C from target")
-        
-        with col2:
-            min_temp = temp_data.get('min_temp', 0)
-            max_temp = temp_data.get('max_temp', 0)
-            st.metric("Temperature Range", f"{min_temp}°C - {max_temp}°C")
-        
-        with col3:
-            stability = temp_data.get('stability_score', 0)
-            st.metric("Stability Score", f"{stability}%", 
-                     delta="Good" if stability > 85 else "Poor")
-    
-    # ML Risk Prediction
-    if 'spoilage_risk' in validation_result:
-        risk_data = validation_result['spoilage_risk']
-        st.markdown("#### 🤖 AI Risk Analysis")
-        
-        risk_level = risk_data.get('risk_level', 'Unknown')
-        confidence = risk_data.get('confidence', 0)
-        
-        if risk_level == 'LOW':
-            risk_color = "#28a745"
-            risk_icon = "✅"
-        elif risk_level == 'MEDIUM':
-            risk_color = "#ffc107"
-            risk_icon = "⚠️"
-        else:
-            risk_color = "#dc3545"
-            risk_icon = "🚨"
-        
-        st.markdown(f"""
-        <div style="background: linear-gradient(135deg, {risk_color}20, {risk_color}10); 
-                    border-left: 4px solid {risk_color}; padding: 15px; border-radius: 8px;">
-            <h5 style="color: {risk_color}; margin-top: 0;">{risk_icon} Spoilage Risk: {risk_level}</h5>
-            <p><strong>Confidence:</strong> {confidence:.1%}</p>
-            <p><strong>Prediction:</strong> {risk_data.get('prediction_details', 'No details available')}</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # IoT Sensor Status
-    if 'iot_status' in validation_result:
-        iot_data = validation_result['iot_status']
-        st.markdown("#### 📡 IoT Sensor Network")
-        
-        for sensor_id, sensor_data in iot_data.items():
-            status = sensor_data.get('status', 'Unknown')
-            battery = sensor_data.get('battery_level', 0)
-            
-            status_color = "#28a745" if status == "ACTIVE" else "#dc3545"
-            status_icon = "🟢" if status == "ACTIVE" else "🔴"
-            
-            st.markdown(f"""
-            <div style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px; 
-                        border-radius: 8px; margin-bottom: 10px;">
-                <h6 style="margin-top: 0;">{status_icon} Sensor {sensor_id}</h6>
-                <p><strong>Status:</strong> <span style="color: {status_color};">{status}</span></p>
-                <p><strong>Battery:</strong> {battery}% | <strong>Last Reading:</strong> {sensor_data.get('last_reading', 'N/A')}</p>
-            </div>
-            """, unsafe_allow_html=True)
-    
-    # Compliance Check Results
-    if 'compliance' in validation_result:
-        compliance_data = validation_result['compliance']
-        st.markdown("#### 📋 Compliance Status")
-        
-        for check_type, result in compliance_data.items():
-            check_status = result.get('status', 'UNKNOWN')
-            check_icon = "✅" if check_status == "COMPLIANT" else "❌"
-            check_color = "#28a745" if check_status == "COMPLIANT" else "#dc3545"
-            
-            st.markdown(f"""
-            <div style="border-left: 4px solid {check_color}; padding: 10px; margin-bottom: 10px; 
-                        background: {check_color}10;">
-                <h6 style="margin-top: 0; color: {check_color};">{check_icon} {check_type.replace('_', ' ').title()}</h6>
-                <p><strong>Status:</strong> {check_status}</p>
-                <p><strong>Details:</strong> {result.get('details', 'No details available')}</p>
-            </div>
-            """, unsafe_allow_html=True)
-     # Display any standard errors/warnings
-    display_standard_validation_results(validation_result)
 
 if __name__ == "__main__":
     main()
