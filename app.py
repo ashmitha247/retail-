@@ -733,15 +733,25 @@ def display_validation_results(results):
         """, unsafe_allow_html=True)
         
         if st.button("📄 Generate JSON Report", use_container_width=True):
-            report_generator = ReportGenerator()
-            json_report = report_generator.generate_json_report(results)
-            st.download_button(
-                label="⬇️ Download JSON",
-                data=json_report,
-                file_name=f"vendorladon_validation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
-                mime="application/json",
-                use_container_width=True
-            )
+            try:
+                report_generator = ReportGenerator()
+                json_report = report_generator.generate_json_report(results)
+                
+                if json_report and len(json_report) > 0:
+                    st.download_button(
+                        label="⬇️ Download JSON",
+                        data=json_report,
+                        file_name=f"vendorladon_validation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
+                        mime="application/json",
+                        use_container_width=True
+                    )
+                    st.success("✅ JSON report generated successfully!")
+                else:
+                    st.error("❌ Failed to generate JSON report - no data")
+                    
+            except Exception as e:
+                st.error(f"❌ Error generating JSON report: {str(e)}")
+                st.write("Debug info:", str(e))
     
     with col2:
         st.markdown("""
@@ -752,15 +762,25 @@ def display_validation_results(results):
         """, unsafe_allow_html=True)
         
         if st.button("📊 Generate CSV Report", use_container_width=True):
-            report_generator = ReportGenerator()
-            csv_report = report_generator.generate_csv_report(results)
-            st.download_button(
-                label="⬇️ Download CSV",
-                data=csv_report,
-                file_name=f"vendorladon_validation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
-                mime="text/csv",
-                use_container_width=True
-            )
+            try:
+                report_generator = ReportGenerator()
+                csv_report = report_generator.generate_csv_report(results)
+                
+                if csv_report and len(csv_report) > 0:
+                    st.download_button(
+                        label="⬇️ Download CSV",
+                        data=csv_report,
+                        file_name=f"vendorladon_validation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
+                        mime="text/csv",
+                        use_container_width=True
+                    )
+                    st.success("✅ CSV report generated successfully!")
+                else:
+                    st.error("❌ Failed to generate CSV report - no data")
+                    
+            except Exception as e:
+                st.error(f"❌ Error generating CSV report: {str(e)}")
+                st.write("Debug info:", str(e))
     
     with col3:
         st.markdown("""
@@ -773,6 +793,13 @@ def display_validation_results(results):
         if st.button("👁️ View Raw Data", use_container_width=True):
             with st.expander("📊 Raw Validation Data", expanded=True):
                 st.json(results)
+                
+                # Debug info for report generation
+                st.markdown("### 🔧 Debug Information")
+                st.write(f"**Results type**: {type(results)}")
+                st.write(f"**Results keys**: {list(results.keys()) if isinstance(results, dict) else 'Not a dict'}")
+                st.write(f"**Summary data**: {results.get('summary', 'No summary') if isinstance(results, dict) else 'N/A'}")
+                st.write(f"**Validations count**: {len(results.get('validations', {})) if isinstance(results, dict) else 'N/A'}")
 
 def display_coldchain_results(validation_result):
     """Display enhanced cold chain validation results"""
