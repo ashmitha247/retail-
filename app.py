@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Tuple, Any
 import re
 
+# Version: 2024-12-28 - Removed reporting section for stable demo
+
 # Import validation modules
 from validators.edi_validator import EDIValidator
 from validators.gstin_validator_simple import GSTINValidator
